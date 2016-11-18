@@ -15,7 +15,7 @@ public class Classe {
 		g2.draw(new Rectangle(10, 10, 280, 180));
 		String svgElement = g2.getSVGElement();
 		System.out.println(svgElement);
-		String filename = "image" + System.currentTimeMillis() + ".svg";
+		String filename = "image.svg";
 		File image = new File(filename);
 		BufferedWriter writer = new BufferedWriter(new FileWriter(image));
 		writer.write(svgElement);
