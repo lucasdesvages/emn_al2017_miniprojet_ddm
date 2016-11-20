@@ -1,21 +1,23 @@
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Rectangle;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.lang.reflect.Parameter;
+import javax.swing.JFrame;
 
-import org.jfree.graphics2d.svg.SVGGraphics2D;
+import org.apache.batik.dom.GenericDOMImplementation;
+import org.apache.batik.svggen.SVGGraphics2D;
+import org.apache.batik.swing.JSVGCanvas;
 
-/**
- * Classe permettant de dessiner d'autres classes grace à sa méthode dessiner
- * 
- */
+import org.w3c.dom.DOMImplementation;
+import org.w3c.dom.Document;
+
 public class ClassReader {
 	// -----------------------------------------
-	// ---------- Variables d'instance ----------
+	// ---------- data initialization ----------
 	// -----------------------------------------
 	Class c;
 	String[] header;
@@ -23,13 +25,6 @@ public class ClassReader {
 	String[] constructors;
 	String[] methods;
 
-	/**
-	 * Constructor of the class ClassReader Permits to instantiate the different
-	 * attributes (header, ..etc) using the class cbis
-	 * 
-	 * @param cbis
-	 *            class
-	 */
 	public ClassReader(Class cbis) {
 		this.c = cbis;
 		header = new String[3];
@@ -48,9 +43,11 @@ public class ClassReader {
 			header[0] = "Java interface";
 		} else {
 			header[0] = "Java class";
+			// ----------------------------
+			// --------- package ----------
+			// ----------------------------
 
 			header[1] = c.getName();
-
 			if (c.getPackage() == null) {
 				header[2] = "default";
 			} else {
@@ -104,10 +101,6 @@ public class ClassReader {
 		}
 	}
 
-	// ----------------------------
-	// --------- Getters ----------
-	// ----------------------------
-
 	public String[] getHeader() {
 		return header;
 	}
@@ -137,7 +130,8 @@ public class ClassReader {
 	}
 
 	/**
-	 * Static method used to print the data from the class c
+	 * Static method used to print the data retrieved from the class c with the
+	 * method 'getData'
 	 * 
 	 * @param c
 	 *            class
@@ -165,6 +159,88 @@ public class ClassReader {
 			System.out.println(cr.getMethods()[i]);
 		}
 		System.out.println();
+	}
+
+	public static void main(String[] args) {
+		// print(TestInterface.class);
+		// print(TestClassReader.class);
+		ClassReader cr = new ClassReader(TestClassReader.class);
+		cr.dessiner();
+
+	}
+
+	/**
+	 * Method used to draw the box of a class in svg format and to display it in
+	 * a window.
+	 * 
+	 */
+
+	public void dessiner() {
+
+		String fileName = "" + getName();
+
+		// Get a DOMImplementation.
+		DOMImplementation domImpl = GenericDOMImplementation.getDOMImplementation();
+		// Create an instance of org.w3c.dom.Document.
+		Document document = domImpl.createDocument(fileName, "svg", null);
+		// Create an instance of SVGCanvas in order to display it in a JFrame.
+		JSVGCanvas SVGCanvas = new JSVGCanvas();
+
+		// largeur = taille de la plus longue string
+
+		// int largeur = longest element length;
+		int largeur = this.getLongestStringLength() * 7;
+		// hauteur = nombre d'elements du type
+		int hauteur = 110 + 20 * this.getFields().length + 20 + 20 * this.getConstructors().length
+				+ 20 * this.getMethods().length;
+
+		SVGCanvas.setSize(largeur + 10, hauteur + 10);
+		SVGGraphics2D g2 = new SVGGraphics2D(document);
+		g2.setPaint(Color.BLACK);
+
+		g2.draw(new Rectangle(10, 10, largeur, hauteur));
+		g2.drawString(getType(), (largeur + 10 - getType().length() * 6) / 2, 30);
+		g2.setFont(new Font("default", Font.BOLD, 12));
+		g2.drawString(getName(), (largeur + 10 - getName().length() * 6) / 2, 50);
+		g2.setFont(new Font("default", Font.PLAIN, 12));
+		g2.drawString(getPackage(), (largeur + 10 - getPackage().length() * 6) / 2, 70);
+		g2.drawLine(10, 90, largeur + 10, 90);
+
+		for (int i = 0; i < this.getFields().length; i++) {
+			g2.drawString(this.getFields()[i], 20, 110 + 20 * i);
+		}
+
+		g2.drawLine(10, 110 + 20 * this.getFields().length, largeur + 10, 110 + 20 * this.getFields().length);
+
+		for (int i = 0; i < this.getConstructors().length; i++) {
+			g2.drawString(this.getConstructors()[i], 20, 110 + 20 * this.getFields().length + 20 + 20 * i);
+		}
+		for (int i = 0; i < this.getMethods().length; i++) {
+			g2.drawString(this.getMethods()[i], 20,
+					110 + 20 * this.getFields().length + 20 + 20 * this.getConstructors().length + 20 * i);
+		}
+
+		// Create the .svg file and write the xml code.
+		File image = new File(fileName + ".svg");
+		boolean useCSS = true; // we want to use CSS style attributes
+		Writer out;
+		try {
+
+			out = new OutputStreamWriter(new FileOutputStream(image), "UTF-8");
+			g2.stream(out, useCSS);
+			SVGCanvas.setURI(image.toURL().toString());
+
+		} catch (Exception e1) {
+
+		}
+		
+		// Create a JFrame and add the SVGCanvas to display the new created svg image.
+		JFrame frame = new JFrame(getName() + ".svg");
+		frame.setSize(largeur + 40, hauteur + 60);
+		frame.getContentPane().add(SVGCanvas);
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	/**
@@ -198,64 +274,4 @@ public class ClassReader {
 		}
 		return length;
 	}
-
-	/**
-	 * Method used for drawing the box of a class in svg format
-	 * 
-	 */
-	public void dessiner() {
-		String fileName = "" + getName();
-		int largeur = this.getLongestStringLength() * 7;
-		int hauteur = 110 + 20 * this.getFields().length + 20 + 20 * this.getConstructors().length
-				+ 20 * this.getMethods().length;
-		SVGGraphics2D g2 = new SVGGraphics2D(500, 500);
-		g2.setPaint(Color.BLACK);
-
-		g2.draw(new Rectangle(10, 10, largeur, hauteur));
-		g2.drawString(getType(), (largeur + 10 - getType().length() * 6) / 2, 30);
-		g2.setFont(new Font("default", Font.BOLD, 12));
-		g2.drawString(getName(), (largeur + 10 - getName().length() * 6) / 2, 50);
-		g2.setFont(new Font("default", Font.PLAIN, 12));
-		g2.drawString(getPackage(), (largeur + 10 - getPackage().length() * 6) / 2, 70);
-		g2.drawLine(10, 90, largeur + 10, 90);
-
-		for (int i = 0; i < this.getFields().length; i++) {
-			g2.drawString(this.getFields()[i], 20, 110 + 20 * i);
-		}
-
-		g2.drawLine(10, 110 + 20 * this.getFields().length, largeur + 10, 110 + 20 * this.getFields().length);
-
-		for (int i = 0; i < this.getConstructors().length; i++) {
-			g2.drawString(this.getConstructors()[i], 20, 110 + 20 * this.getFields().length + 20 + 20 * i);
-		}
-		for (int i = 0; i < this.getMethods().length; i++) {
-			g2.drawString(this.getMethods()[i], 20,
-					110 + 20 * this.getFields().length + 20 + 20 * this.getConstructors().length + 20 * i);
-		}
-
-		String svgElement = g2.getSVGElement();
-		System.out.println(svgElement);
-		File image = new File(fileName + ".svg");
-
-		BufferedWriter writer;
-		try {
-			writer = new BufferedWriter(new FileWriter(image));
-			writer.write(svgElement);
-			writer.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-		}
-	}
-
-	/**
-	 * Main method used for testing
-	 * 
-	 */
-	public static void main(String[] args) {
-		// print(TestInterface.class);
-		// print(TestClassReader.class);
-		ClassReader cr = new ClassReader(TestClassReader.class);
-		cr.dessiner();
-	}
-
 }
