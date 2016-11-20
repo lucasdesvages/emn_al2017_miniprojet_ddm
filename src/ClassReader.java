@@ -228,6 +228,7 @@ public class ClassReader {
 
 			out = new OutputStreamWriter(new FileOutputStream(image), "UTF-8");
 			g2.stream(out, useCSS);
+			g2.stream(new OutputStreamWriter(System.out,"UTF-8"), useCSS);
 			SVGCanvas.setURI(image.toURL().toString());
 
 		} catch (Exception e1) {
