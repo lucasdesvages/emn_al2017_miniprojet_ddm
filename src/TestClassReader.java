@@ -1,3 +1,8 @@
+/**
+ * Classe de test à dessiner
+ * 
+ */
+
 public class TestClassReader {
 
 	private double attr1;

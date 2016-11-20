@@ -6,13 +6,16 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Parameter;
-import java.util.ArrayList;
 
 import org.jfree.graphics2d.svg.SVGGraphics2D;
 
+/**
+ * Classe permettant de dessiner d'autres classes grace à sa méthode dessiner
+ * 
+ */
 public class ClassReader {
 	// -----------------------------------------
-	// ---------- data initialization ----------
+	// ---------- Variables d'instance ----------
 	// -----------------------------------------
 	Class c;
 	String[] header;
@@ -20,6 +23,13 @@ public class ClassReader {
 	String[] constructors;
 	String[] methods;
 
+	/**
+	 * Constructor of the class ClassReader Permits to instantiate the different
+	 * attributes (header, ..etc) using the class cbis
+	 * 
+	 * @param cbis
+	 *            class
+	 */
 	public ClassReader(Class cbis) {
 		this.c = cbis;
 		header = new String[3];
@@ -38,11 +48,9 @@ public class ClassReader {
 			header[0] = "Java interface";
 		} else {
 			header[0] = "Java class";
-			// ----------------------------
-			// --------- package ----------
-			// ----------------------------
 
 			header[1] = c.getName();
+
 			if (c.getPackage() == null) {
 				header[2] = "default";
 			} else {
@@ -96,6 +104,10 @@ public class ClassReader {
 		}
 	}
 
+	// ----------------------------
+	// --------- Getters ----------
+	// ----------------------------
+
 	public String[] getHeader() {
 		return header;
 	}
@@ -125,8 +137,7 @@ public class ClassReader {
 	}
 
 	/**
-	 * Static method used to print the data retrieved from the class c with the
-	 * method 'getData'
+	 * Static method used to print the data from the class c
 	 * 
 	 * @param c
 	 *            class
@@ -156,45 +167,47 @@ public class ClassReader {
 		System.out.println();
 	}
 
-	public static void main(String[] args) {
-		// print(TestInterface.class);
-		// print(TestClassReader.class);
-		ClassReader cr = new ClassReader(TestClassReader.class);
-		cr.dessiner();
-	}
-
-	public int getTaillePlusLongueString() {
-		int taille = this.getName().length();
-		if (this.getType().length() > taille) {
-			taille = this.getType().length();
+	/**
+	 * Method used to get the longest string of the class in order to calculate
+	 * the future width of the class box
+	 * 
+	 */
+	public int getLongestStringLength() {
+		int length = this.getName().length();
+		if (this.getType().length() > length) {
+			length = this.getType().length();
 		}
-		if (this.getPackage().length() > taille) {
-			taille = this.getPackage().length();
+		if (this.getPackage().length() > length) {
+			length = this.getPackage().length();
 		}
 		for (int i = 0; i < this.getFields().length; i++) {
-			if (this.getFields()[i].length() > taille) {
-				taille = this.getFields()[i].length();
+			if (this.getFields()[i].length() > length) {
+				length = this.getFields()[i].length();
 			}
 		}
 
 		for (int i = 0; i < this.getConstructors().length; i++) {
-			if (this.getConstructors()[i].length() > taille) {
-				taille = this.getConstructors()[i].length();
+			if (this.getConstructors()[i].length() > length) {
+				length = this.getConstructors()[i].length();
 			}
 		}
 		for (int i = 0; i < this.getMethods().length; i++) {
-			if (this.getMethods()[i].length() > taille) {
-				taille = this.getMethods()[i].length();
+			if (this.getMethods()[i].length() > length) {
+				length = this.getMethods()[i].length();
 			}
 		}
-		return taille;
+		return length;
 	}
 
+	/**
+	 * Method used for drawing the box of a class in svg format
+	 * 
+	 */
 	public void dessiner() {
 		String fileName = "" + getName();
-		int largeur = this.getTaillePlusLongueString()*7;
-		int hauteur = 110 + 20 * this.getFields().length + 20 + 
-				20 * this.getConstructors().length + 20 * this.getMethods().length;
+		int largeur = this.getLongestStringLength() * 7;
+		int hauteur = 110 + 20 * this.getFields().length + 20 + 20 * this.getConstructors().length
+				+ 20 * this.getMethods().length;
 		SVGGraphics2D g2 = new SVGGraphics2D(500, 500);
 		g2.setPaint(Color.BLACK);
 
@@ -232,6 +245,17 @@ public class ClassReader {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 		}
+	}
+
+	/**
+	 * Main method used for testing
+	 * 
+	 */
+	public static void main(String[] args) {
+		// print(TestInterface.class);
+		// print(TestClassReader.class);
+		ClassReader cr = new ClassReader(TestClassReader.class);
+		cr.dessiner();
 	}
 
 }
