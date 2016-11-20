@@ -1,5 +1,14 @@
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Rectangle;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
+
+import org.jfree.graphics2d.svg.SVGGraphics2D;
 
 public class ClassReader {
 	// -----------------------------------------
@@ -10,7 +19,7 @@ public class ClassReader {
 	String[] fields;
 	String[] constructors;
 	String[] methods;
-	
+
 	public ClassReader(Class cbis) {
 		this.c = cbis;
 		header = new String[3];
@@ -148,8 +157,81 @@ public class ClassReader {
 	}
 
 	public static void main(String[] args) {
-		print(TestInterface.class);
-		print(TestClassReader.class);
+		// print(TestInterface.class);
+		// print(TestClassReader.class);
+		ClassReader cr = new ClassReader(TestClassReader.class);
+		cr.dessiner();
+	}
+
+	public int getTaillePlusLongueString() {
+		int taille = this.getName().length();
+		if (this.getType().length() > taille) {
+			taille = this.getType().length();
+		}
+		if (this.getPackage().length() > taille) {
+			taille = this.getPackage().length();
+		}
+		for (int i = 0; i < this.getFields().length; i++) {
+			if (this.getFields()[i].length() > taille) {
+				taille = this.getFields()[i].length();
+			}
+		}
+
+		for (int i = 0; i < this.getConstructors().length; i++) {
+			if (this.getConstructors()[i].length() > taille) {
+				taille = this.getConstructors()[i].length();
+			}
+		}
+		for (int i = 0; i < this.getMethods().length; i++) {
+			if (this.getMethods()[i].length() > taille) {
+				taille = this.getMethods()[i].length();
+			}
+		}
+		return taille;
+	}
+
+	public void dessiner() {
+		String fileName = "" + getName();
+		int largeur = this.getTaillePlusLongueString()*7;
+		int hauteur = 110 + 20 * this.getFields().length + 20 + 
+				20 * this.getConstructors().length + 20 * this.getMethods().length;
+		SVGGraphics2D g2 = new SVGGraphics2D(500, 500);
+		g2.setPaint(Color.BLACK);
+
+		g2.draw(new Rectangle(10, 10, largeur, hauteur));
+		g2.drawString(getType(), (largeur + 10 - getType().length() * 6) / 2, 30);
+		g2.setFont(new Font("default", Font.BOLD, 12));
+		g2.drawString(getName(), (largeur + 10 - getName().length() * 6) / 2, 50);
+		g2.setFont(new Font("default", Font.PLAIN, 12));
+		g2.drawString(getPackage(), (largeur + 10 - getPackage().length() * 6) / 2, 70);
+		g2.drawLine(10, 90, largeur + 10, 90);
+
+		for (int i = 0; i < this.getFields().length; i++) {
+			g2.drawString(this.getFields()[i], 20, 110 + 20 * i);
+		}
+
+		g2.drawLine(10, 110 + 20 * this.getFields().length, largeur + 10, 110 + 20 * this.getFields().length);
+
+		for (int i = 0; i < this.getConstructors().length; i++) {
+			g2.drawString(this.getConstructors()[i], 20, 110 + 20 * this.getFields().length + 20 + 20 * i);
+		}
+		for (int i = 0; i < this.getMethods().length; i++) {
+			g2.drawString(this.getMethods()[i], 20,
+					110 + 20 * this.getFields().length + 20 + 20 * this.getConstructors().length + 20 * i);
+		}
+
+		String svgElement = g2.getSVGElement();
+		System.out.println(svgElement);
+		File image = new File(fileName + ".svg");
+
+		BufferedWriter writer;
+		try {
+			writer = new BufferedWriter(new FileWriter(image));
+			writer.write(svgElement);
+			writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+		}
 	}
 
 }
