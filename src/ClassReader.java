@@ -2,34 +2,21 @@ import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 
 public class ClassReader {
-
-	/**
-	 * Static method used to retrieve data from a class
-	 * 
-	 * @param c
-	 *            the specified class
-	 * @return A list of 4 arrays with the data in this format :<br/>
-	 *         <ol>
-	 *         <li>the header which includes the type of the java object, the
-	 *         name and the package
-	 *         <li/>
-	 *         the fields of the class in parameter
-	 *         <li/>
-	 *         the constructors
-	 *         <li/>
-	 *         the methods
-	 *         <ol/>
-	 */
-	public static ArrayList<String[]> getData(Class c) {
-
-		// -----------------------------------------
-		// ---------- data initialization ----------
-		// -----------------------------------------
-		String[] header = new String[3];
-		String[] fields = new String[c.getDeclaredFields().length];
-		String[] constructors = new String[c.getDeclaredConstructors().length];
-		String[] methods = new String[c.getDeclaredMethods().length];
-
+	// -----------------------------------------
+	// ---------- data initialization ----------
+	// -----------------------------------------
+	Class c;
+	String[] header;
+	String[] fields;
+	String[] constructors;
+	String[] methods;
+	
+	public ClassReader(Class cbis) {
+		this.c = cbis;
+		header = new String[3];
+		fields = new String[c.getDeclaredFields().length];
+		constructors = new String[c.getDeclaredConstructors().length];
+		methods = new String[c.getDeclaredMethods().length];
 		// ----------------------------------------
 		// ---- header : type + name + package ----
 		// ----------------------------------------
@@ -42,6 +29,16 @@ public class ClassReader {
 			header[0] = "Java interface";
 		} else {
 			header[0] = "Java class";
+			// ----------------------------
+			// --------- package ----------
+			// ----------------------------
+
+			header[1] = c.getName();
+			if (c.getPackage() == null) {
+				header[2] = "default";
+			} else {
+				header[2] = c.getPackage().getName();
+			}
 
 			// ----------------------------------
 			// ------------- fields -------------
@@ -57,33 +54,18 @@ public class ClassReader {
 			// ---------------------------------
 
 			for (int i = 0; i != constructors.length; i++) {
-				Parameter[] param = c.getDeclaredConstructors()[i]
-						.getParameters();
-				constructors[i] = c.getDeclaredConstructors()[i].getName()
-						+ "(";
+				Parameter[] param = c.getDeclaredConstructors()[i].getParameters();
+				constructors[i] = c.getDeclaredConstructors()[i].getName() + "(";
 				for (int j = 0; j < param.length - 1; j++) {
-					constructors[i] += param[j].getType().getSimpleName()
-							+ ", ";
+					constructors[i] += param[j].getType().getSimpleName() + ", ";
 				}
 				if (param.length > 0) {
-					constructors[i] += param[param.length - 1].getType()
-							.getSimpleName() + ")";
+					constructors[i] += param[param.length - 1].getType().getSimpleName() + ")";
 				} else {
 					constructors[i] += ")";
 				}
 			}
 
-		}
-
-		// ----------------------------
-		// --------- package ----------
-		// ----------------------------
-
-		header[1] = c.getName();
-		if (c.getPackage() == null) {
-			header[2] = "default";
-		} else {
-			header[2] = c.getPackage().getName();
 		}
 
 		// ----------------------------
@@ -97,22 +79,40 @@ public class ClassReader {
 				methods[i] += param[j].getType().getSimpleName() + ", ";
 			}
 			if (param.length > 0) {
-				methods[i] += param[param.length - 1].getType().getSimpleName()
-						+ ")";
+				methods[i] += param[param.length - 1].getType().getSimpleName() + ")";
 			} else {
 				methods[i] += ")";
 			}
-			methods[i] += " : "
-					+ c.getDeclaredMethods()[i].getReturnType().getSimpleName();
+			methods[i] += " : " + c.getDeclaredMethods()[i].getReturnType().getSimpleName();
 		}
+	}
 
-		ArrayList<String[]> res = new ArrayList<String[]>();
-		res.add(header);
-		res.add(fields);
-		res.add(constructors);
-		res.add(methods);
+	public String[] getHeader() {
+		return header;
+	}
 
-		return res;
+	public String getType() {
+		return header[0];
+	}
+
+	public String getName() {
+		return header[1];
+	}
+
+	public String getPackage() {
+		return header[2];
+	}
+
+	public String[] getFields() {
+		return fields;
+	}
+
+	public String[] getConstructors() {
+		return constructors;
+	}
+
+	public String[] getMethods() {
+		return methods;
 	}
 
 	/**
@@ -123,27 +123,26 @@ public class ClassReader {
 	 *            class
 	 */
 	public static void print(Class c) {
-		ArrayList<String[]> s = getData(c);
-
-		System.out.println("type : " + s.get(0)[0]);
-		System.out.println("name : " + s.get(0)[1]);
-		System.out.println("package : " + s.get(0)[2]);
+		ClassReader cr = new ClassReader(c);
+		System.out.println("type : " + cr.getType());
+		System.out.println("name : " + cr.getName());
+		System.out.println("package : " + cr.getPackage());
 		System.out.println();
-		if (s.get(0)[0].equals("Java class")) {
+		if (cr.getType().equals("Java class")) {
 			System.out.println("fields : ");
-			for (int i = 0; i != s.get(1).length; i++) {
-				System.out.println(s.get(1)[i]);
+			for (int i = 0; i != cr.getFields().length; i++) {
+				System.out.println(cr.getFields()[i]);
 			}
 			System.out.println();
 			System.out.println("constructors : ");
-			for (int i = 0; i != s.get(2).length; i++) {
-				System.out.println(s.get(2)[i]);
+			for (int i = 0; i != cr.getConstructors().length; i++) {
+				System.out.println(cr.getConstructors()[i]);
 			}
 			System.out.println();
 		}
 		System.out.println("methods : ");
-		for (int i = 0; i != s.get(3).length; i++) {
-			System.out.println(s.get(3)[i]);
+		for (int i = 0; i != cr.getMethods().length; i++) {
+			System.out.println(cr.getMethods()[i]);
 		}
 		System.out.println();
 	}
