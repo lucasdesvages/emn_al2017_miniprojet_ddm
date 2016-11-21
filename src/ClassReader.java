@@ -161,14 +161,6 @@ public class ClassReader {
 		System.out.println();
 	}
 
-	public static void main(String[] args) {
-		// print(TestInterface.class);
-		// print(TestClassReader.class);
-		ClassReader cr = new ClassReader(TestClassReader.class);
-		cr.dessiner();
-
-	}
-
 	/**
 	 * Method used to draw the box of a class in svg format and to display it in
 	 * a window.
@@ -274,5 +266,13 @@ public class ClassReader {
 			}
 		}
 		return length;
+	}
+	
+	public static void main(String[] args) {
+		// print(TestInterface.class);
+		// print(TestClassReader.class);
+		ClassReader cr = new ClassReader(TestClassReader.class);
+		cr.dessiner();
+
 	}
 }

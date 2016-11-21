@@ -25,17 +25,17 @@
       ><text x="20" xml:space="preserve" y="210" style="stroke:none;"
       >TestClassReader()</text
       ><text x="20" xml:space="preserve" y="230" style="stroke:none;"
-      >setAttr3(String) : void</text
-      ><text x="20" xml:space="preserve" y="250" style="stroke:none;"
-      >setAttr1(double) : void</text
-      ><text x="20" xml:space="preserve" y="270" style="stroke:none;"
-      >getAttr1() : double</text
-      ><text x="20" xml:space="preserve" y="290" style="stroke:none;"
-      >setAttr2(int) : void</text
-      ><text x="20" xml:space="preserve" y="310" style="stroke:none;"
       >getAttr3() : String</text
-      ><text x="20" xml:space="preserve" y="330" style="stroke:none;"
+      ><text x="20" xml:space="preserve" y="250" style="stroke:none;"
       >getAttr2() : int</text
+      ><text x="20" xml:space="preserve" y="270" style="stroke:none;"
+      >setAttr2(int) : void</text
+      ><text x="20" xml:space="preserve" y="290" style="stroke:none;"
+      >setAttr3(String) : void</text
+      ><text x="20" xml:space="preserve" y="310" style="stroke:none;"
+      >setAttr1(double) : void</text
+      ><text x="20" xml:space="preserve" y="330" style="stroke:none;"
+      >getAttr1() : double</text
     ></g
   ></g
 ></svg
