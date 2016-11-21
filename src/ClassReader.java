@@ -35,6 +35,13 @@ public class ClassReader<T> {
 		// ---- header : type + name + package ----
 		// ----------------------------------------
 
+		header[1] = c.getName();
+		if (c.getPackage() == null) {
+			header[2] = "default";
+		} else {
+			header[2] = c.getPackage().getName();
+		}
+
 		if (c.isAnnotation()) {
 			header[0] = "Java annotation";
 		} else if (c.isEnum()) {
@@ -43,16 +50,6 @@ public class ClassReader<T> {
 			header[0] = "Java interface";
 		} else {
 			header[0] = "Java class";
-			// ----------------------------
-			// --------- package ----------
-			// ----------------------------
-
-			header[1] = c.getName();
-			if (c.getPackage() == null) {
-				header[2] = "default";
-			} else {
-				header[2] = c.getPackage().getName();
-			}
 
 			// ----------------------------------
 			// ------------- fields -------------
@@ -68,13 +65,17 @@ public class ClassReader<T> {
 			// ---------------------------------
 
 			for (int i = 0; i != constructors.length; i++) {
-				Parameter[] param = c.getDeclaredConstructors()[i].getParameters();
-				constructors[i] = c.getDeclaredConstructors()[i].getName() + "(";
+				Parameter[] param = c.getDeclaredConstructors()[i]
+						.getParameters();
+				constructors[i] = c.getDeclaredConstructors()[i].getName()
+						+ "(";
 				for (int j = 0; j < param.length - 1; j++) {
-					constructors[i] += param[j].getType().getSimpleName() + ", ";
+					constructors[i] += param[j].getType().getSimpleName()
+							+ ", ";
 				}
 				if (param.length > 0) {
-					constructors[i] += param[param.length - 1].getType().getSimpleName() + ")";
+					constructors[i] += param[param.length - 1].getType()
+							.getSimpleName() + ")";
 				} else {
 					constructors[i] += ")";
 				}
@@ -93,11 +94,13 @@ public class ClassReader<T> {
 				methods[i] += param[j].getType().getSimpleName() + ", ";
 			}
 			if (param.length > 0) {
-				methods[i] += param[param.length - 1].getType().getSimpleName() + ")";
+				methods[i] += param[param.length - 1].getType().getSimpleName()
+						+ ")";
 			} else {
 				methods[i] += ")";
 			}
-			methods[i] += " : " + c.getDeclaredMethods()[i].getReturnType().getSimpleName();
+			methods[i] += " : "
+					+ c.getDeclaredMethods()[i].getReturnType().getSimpleName();
 		}
 	}
 
@@ -133,7 +136,7 @@ public class ClassReader<T> {
 	 * Static method used to print the data retrieved from the class c with the
 	 * method 'getData'
 	 * 
-	 *            class
+	 * class
 	 */
 	public void print() {
 
@@ -171,7 +174,8 @@ public class ClassReader<T> {
 		String fileName = "" + getName();
 
 		// Get a DOMImplementation.
-		DOMImplementation domImpl = GenericDOMImplementation.getDOMImplementation();
+		DOMImplementation domImpl = GenericDOMImplementation
+				.getDOMImplementation();
 		// Create an instance of org.w3c.dom.Document.
 		Document document = domImpl.createDocument(fileName, "svg", null);
 		// Create an instance of SVGCanvas in order to display it in a JFrame.
@@ -182,33 +186,41 @@ public class ClassReader<T> {
 		// int largeur = longest element length;
 		int largeur = this.getLongestStringLength() * 7;
 		// hauteur = nombre d'elements du type
-		int hauteur = 110 + 20 * this.getFields().length + 20 + 20 * this.getConstructors().length
-				+ 20 * this.getMethods().length;
+		int hauteur = 110 + 20 * this.getFields().length + 20 + 20
+				* this.getConstructors().length + 20 * this.getMethods().length;
 
 		SVGCanvas.setSize(largeur + 10, hauteur + 10);
 		SVGGraphics2D g2 = new SVGGraphics2D(document);
 		g2.setPaint(Color.BLACK);
 
 		g2.draw(new Rectangle(10, 10, largeur, hauteur));
-		g2.drawString(getType(), (largeur + 10 - getType().length() * 6) / 2, 30);
+		g2.drawString(getType(), (largeur + 10 - getType().length() * 6) / 2,
+				30);
 		g2.setFont(new Font("default", Font.BOLD, 12));
-		g2.drawString(getName(), (largeur + 10 - getName().length() * 6) / 2, 50);
+		g2.drawString(getName(), (largeur + 10 - getName().length() * 6) / 2,
+				50);
 		g2.setFont(new Font("default", Font.PLAIN, 12));
-		g2.drawString(getPackage(), (largeur + 10 - getPackage().length() * 6) / 2, 70);
+		g2.drawString(getPackage(),
+				(largeur + 10 - getPackage().length() * 6) / 2, 70);
 		g2.drawLine(10, 90, largeur + 10, 90);
 
 		for (int i = 0; i < this.getFields().length; i++) {
 			g2.drawString(this.getFields()[i], 20, 110 + 20 * i);
 		}
 
-		g2.drawLine(10, 110 + 20 * this.getFields().length, largeur + 10, 110 + 20 * this.getFields().length);
+		g2.drawLine(10, 110 + 20 * this.getFields().length, largeur + 10,
+				110 + 20 * this.getFields().length);
 
 		for (int i = 0; i < this.getConstructors().length; i++) {
-			g2.drawString(this.getConstructors()[i], 20, 110 + 20 * this.getFields().length + 20 + 20 * i);
+			g2.drawString(this.getConstructors()[i], 20,
+					110 + 20 * this.getFields().length + 20 + 20 * i);
 		}
 		for (int i = 0; i < this.getMethods().length; i++) {
-			g2.drawString(this.getMethods()[i], 20,
-					110 + 20 * this.getFields().length + 20 + 20 * this.getConstructors().length + 20 * i);
+			g2.drawString(
+					this.getMethods()[i],
+					20,
+					110 + 20 * this.getFields().length + 20 + 20
+							* this.getConstructors().length + 20 * i);
 		}
 
 		// Create the .svg file and write the xml code.
@@ -219,14 +231,15 @@ public class ClassReader<T> {
 
 			out = new OutputStreamWriter(new FileOutputStream(image), "UTF-8");
 			g2.stream(out, useCSS);
-			g2.stream(new OutputStreamWriter(System.out,"UTF-8"), useCSS);
+			g2.stream(new OutputStreamWriter(System.out, "UTF-8"), useCSS);
 			SVGCanvas.setURI(image.toString());
 
 		} catch (Exception e1) {
 
 		}
-		
-		// Create a JFrame and add the SVGCanvas to display the new created svg image.
+
+		// Create a JFrame and add the SVGCanvas to display the new created svg
+		// image.
 		JFrame frame = new JFrame(getName() + ".svg");
 		frame.setSize(largeur + 40, hauteur + 60);
 		frame.getContentPane().add(SVGCanvas);
@@ -266,12 +279,16 @@ public class ClassReader<T> {
 		}
 		return length;
 	}
-	
+
 	public static void main(String[] args) {
 		// print(TestInterface.class);
 		// print(TestClassReader.class);
-		ClassReader<TestClassReader> cr = new ClassReader<TestClassReader>(TestClassReader.class);
+		ClassReader<TestClassReader> cr = new ClassReader<TestClassReader>(
+				TestClassReader.class);
 		cr.dessiner();
+		ClassReader<TestInterface> c = new ClassReader<TestInterface>(
+				TestInterface.class);
+		c.dessiner();
 
 	}
 }
