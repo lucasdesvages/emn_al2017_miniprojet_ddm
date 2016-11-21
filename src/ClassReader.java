@@ -15,18 +15,18 @@ import org.apache.batik.swing.JSVGCanvas;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 
-public class ClassReader {
+public class ClassReader<T> {
 	// -----------------------------------------
 	// ---------- data initialization ----------
 	// -----------------------------------------
-	Class c;
+	Class<T> c;
 	String[] header;
 	String[] fields;
 	String[] constructors;
 	String[] methods;
 
-	public ClassReader(Class cbis) {
-		this.c = cbis;
+	public ClassReader(Class<T> c) {
+		this.c = c;
 		header = new String[3];
 		fields = new String[c.getDeclaredFields().length];
 		constructors = new String[c.getDeclaredConstructors().length];
@@ -133,30 +133,29 @@ public class ClassReader {
 	 * Static method used to print the data retrieved from the class c with the
 	 * method 'getData'
 	 * 
-	 * @param c
 	 *            class
 	 */
-	public static void print(Class c) {
-		ClassReader cr = new ClassReader(c);
-		System.out.println("type : " + cr.getType());
-		System.out.println("name : " + cr.getName());
-		System.out.println("package : " + cr.getPackage());
+	public void print() {
+
+		System.out.println("type : " + this.getType());
+		System.out.println("name : " + this.getName());
+		System.out.println("package : " + this.getPackage());
 		System.out.println();
-		if (cr.getType().equals("Java class")) {
+		if (this.getType().equals("Java class")) {
 			System.out.println("fields : ");
-			for (int i = 0; i != cr.getFields().length; i++) {
-				System.out.println(cr.getFields()[i]);
+			for (int i = 0; i != this.getFields().length; i++) {
+				System.out.println(this.getFields()[i]);
 			}
 			System.out.println();
 			System.out.println("constructors : ");
-			for (int i = 0; i != cr.getConstructors().length; i++) {
-				System.out.println(cr.getConstructors()[i]);
+			for (int i = 0; i != this.getConstructors().length; i++) {
+				System.out.println(this.getConstructors()[i]);
 			}
 			System.out.println();
 		}
 		System.out.println("methods : ");
-		for (int i = 0; i != cr.getMethods().length; i++) {
-			System.out.println(cr.getMethods()[i]);
+		for (int i = 0; i != this.getMethods().length; i++) {
+			System.out.println(this.getMethods()[i]);
 		}
 		System.out.println();
 	}
@@ -221,7 +220,7 @@ public class ClassReader {
 			out = new OutputStreamWriter(new FileOutputStream(image), "UTF-8");
 			g2.stream(out, useCSS);
 			g2.stream(new OutputStreamWriter(System.out,"UTF-8"), useCSS);
-			SVGCanvas.setURI(image.toURL().toString());
+			SVGCanvas.setURI(image.toString());
 
 		} catch (Exception e1) {
 
@@ -271,7 +270,7 @@ public class ClassReader {
 	public static void main(String[] args) {
 		// print(TestInterface.class);
 		// print(TestClassReader.class);
-		ClassReader cr = new ClassReader(TestClassReader.class);
+		ClassReader<TestClassReader> cr = new ClassReader<TestClassReader>(TestClassReader.class);
 		cr.dessiner();
 
 	}
