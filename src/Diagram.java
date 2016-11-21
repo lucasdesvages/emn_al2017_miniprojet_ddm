@@ -7,8 +7,5 @@ public interface Diagram {
 	
 	<T> void insert(Diagram d, int x, int y);
 	
-	void draw(boolean svg, boolean frame, boolean console);
-	
-	void label(String text, int x, int y);	
-
+	boolean IsEmptyDiagram();
 }
