@@ -1,11 +1,15 @@
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.lang.reflect.Parameter;
+
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 import org.apache.batik.dom.GenericDOMImplementation;
@@ -229,7 +233,7 @@ public class ClassReader<T> {
 		// Create a JFrame and add the SVGCanvas to display the new created svg image.
 		JFrame frame = new JFrame(getName() + ".svg");
 		frame.setSize(largeur + 40, hauteur + 60);
-		frame.getContentPane().add(SVGCanvas);
+		frame.getContentPane().add(SVGCanvas);		
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

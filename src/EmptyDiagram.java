@@ -11,7 +11,7 @@ import org.apache.batik.swing.JSVGCanvas;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 
-public class EmptyDiagram implements Diagram {
+public class EmptyDiagram implements IDiagram {
 	
 	private static EmptyDiagram instance;
 
@@ -35,7 +35,7 @@ public class EmptyDiagram implements Diagram {
 	}
 
 	@Override
-	public <T> void insert(Diagram d, int x, int y) {
+	public <T> void insert(IDiagram d, int x, int y) {
 	}
 
 	@Override
