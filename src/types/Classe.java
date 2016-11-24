@@ -2,9 +2,9 @@ package types;
 
 import java.lang.reflect.Parameter;
 
-public class Classe<T> extends Interface<T> implements TypeClass {
+public class Classe extends Interface implements TypeClass {
 
-	public Classe(Class<T> c) {
+	public Classe(Class<?> c) {
 		super(c);
 	}
 

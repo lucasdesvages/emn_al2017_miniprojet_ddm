@@ -6,14 +6,17 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.lang.reflect.Parameter;
+
 import javax.swing.JFrame;
 
 import org.apache.batik.dom.GenericDOMImplementation;
 import org.apache.batik.svggen.SVGGraphics2D;
 import org.apache.batik.swing.JSVGCanvas;
-
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
+
+import test.TestClassReader;
+import test.TestInterface;
 
 public class ClassReader<T> {
 	// -----------------------------------------

@@ -2,16 +2,12 @@ package types;
 
 import java.lang.reflect.Parameter;
 
-public class Interface<T> implements TypeInterface {
+public class Interface implements TypeInterface {
 
-	private Class<T> c;
+	private Class<?> c;
 
-	public Interface(Class<T> c) {
+	public Interface(Class<?> c) {
 		this.c = c;
-	}
-
-	public Class<T> getC() {
-		return c;
 	}
 
 	@Override
@@ -60,6 +56,11 @@ public class Interface<T> implements TypeInterface {
 			interfaces[i] = c.getInterfaces()[i].getSimpleName();
 		}
 		return interfaces;
+	}
+
+	@Override
+	public Class<?> getC() {
+		return this.c;
 	}
 
 }

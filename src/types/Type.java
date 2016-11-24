@@ -12,4 +12,6 @@ public interface Type {
 
 	String[] getInterfaces();
 
+	Class<?> getC();
+
 }
