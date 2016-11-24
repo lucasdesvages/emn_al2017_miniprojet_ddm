@@ -15,15 +15,16 @@ public class DiagramWithList extends AbstractDiagram implements Diagram {
 	@Override
 	public void add(Class<?> c) {
 		this.getClasses().add(TypeBuilder.create(c));
+		this.getToDescribe().add(false);
 
 	}
 
 	@Override
 	public void describe(Type t) {
 		if (getClasses().contains(t)) {
-			this.setToDescribe(true);
+			this.setToDescribe(this.getClasses().indexOf(t), true);
 		} else {
-			this.setToDescribe(false);
+			this.setToDescribe(this.getClasses().indexOf(t), false);
 			throw new InvalidParameterException(
 					"It is not in the list of classes contained in the diagram");
 		}

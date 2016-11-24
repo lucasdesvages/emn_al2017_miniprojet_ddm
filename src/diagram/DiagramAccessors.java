@@ -10,6 +10,10 @@ public interface DiagramAccessors<T> {
 
 	ArrayList<Diagram> getDiagrams();
 
+	ArrayList<Boolean> getToDescribe();
+
+	void setToDescribe(int index, boolean b);
+
 	int getX();
 
 	void setX(int x);
@@ -17,10 +21,6 @@ public interface DiagramAccessors<T> {
 	int getY();
 
 	void setY(int y);
-
-	boolean getToDescribe();
-
-	void setToDescribe(boolean b);
 
 	boolean isEmpty();
 

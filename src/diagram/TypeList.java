@@ -10,7 +10,7 @@ public class TypeList implements DiagramState {
 	private int y;
 	private ArrayList<Diagram> DList;
 	private ArrayList<Type> TList;
-	private boolean toDescribe;
+	private ArrayList<Boolean> toDescribe;
 
 	public TypeList(ArrayList<Type> TList, ArrayList<Diagram> DList, int x,
 			int y) {
@@ -18,7 +18,7 @@ public class TypeList implements DiagramState {
 		this.DList = DList;
 		this.x = x;
 		this.y = y;
-		this.toDescribe = false;
+		this.toDescribe = new ArrayList<Boolean>(TList.size());
 	}
 
 	public TypeList() {
@@ -26,7 +26,7 @@ public class TypeList implements DiagramState {
 		this.DList = new ArrayList<Diagram>();
 		this.x = 0;
 		this.y = 0;
-		this.toDescribe = false;
+		this.toDescribe = new ArrayList<Boolean>(TList.size());
 	}
 
 	@Override
@@ -60,13 +60,13 @@ public class TypeList implements DiagramState {
 	}
 
 	@Override
-	public boolean getToDescribe() {
+	public ArrayList<Boolean> getToDescribe() {
 		return toDescribe;
 	}
 
 	@Override
-	public void setToDescribe(boolean b) {
-		toDescribe = b;
+	public void setToDescribe(int index, boolean b) {
+		toDescribe.set(index, b);
 
 	}
 

@@ -50,13 +50,13 @@ public abstract class AbstractDiagram implements Diagram {
 	}
 
 	@Override
-	public boolean getToDescribe() {
+	public ArrayList<Boolean> getToDescribe() {
 		return getState().getToDescribe();
 	}
 
 	@Override
-	public void setToDescribe(boolean b) {
-		getState().setToDescribe(b);
+	public void setToDescribe(int index, boolean b) {
+		getState().setToDescribe(index, b);
 	}
 
 	@Override
