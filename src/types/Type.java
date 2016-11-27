@@ -1,5 +1,7 @@
 package types;
 
+import java.util.ArrayList;
+
 public interface Type {
 
 	String getType();
@@ -8,10 +10,14 @@ public interface Type {
 
 	String getPackage();
 
+	String[] getHeader();
+
 	String[] getMethods();
 
 	String[] getInterfaces();
 
 	Class<?> getC();
+
+	ArrayList<String[]> getDescription();
 
 }
