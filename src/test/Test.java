@@ -1,7 +1,7 @@
 package test;
 
-import java.util.ArrayList;
-
+import visitor.ConsoleVisitor;
+import visitor.Visitor;
 import diagram.Diagram;
 import diagram.DiagramWithList;
 import diagram.TypeList;
@@ -21,13 +21,7 @@ public class Test {
 		d1.setToDescribe(0, true);
 		d1.setToDescribe(1, true);
 
-		for (int i = 0; i != d1.getClasses().size(); i++) {
-			if (d1.getToDescribe().get(i)) {
-				// draw i
-				ArrayList<String[]> description = d1.getClasses().get(i)
-						.getDescription();
-				System.out.println(d1.getClasses().get(i).toString());
-			}
-		}
+		Visitor v = new ConsoleVisitor(d1);
+		v.visit();
 	}
 }

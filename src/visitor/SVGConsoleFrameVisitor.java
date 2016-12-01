@@ -83,11 +83,6 @@ public class SVGConsoleFrameVisitor implements Visitor {
 		if (!svg) { // Delete the so useless svg file
 			image.delete();
 		}
-
-<<<<<<< HEAD:src/SVGConsoleFrameVisitor.java
-	private void drawNonEmptyDiagram(IDiagram d, boolean frame, boolean svg, boolean console) {
-				
-=======
 	}
 
 	private void drawNonEmptyDiagram(Diagram d, boolean frame, boolean svg,
@@ -109,43 +104,19 @@ public class SVGConsoleFrameVisitor implements Visitor {
 		if (svg) {
 			// dessiner le svg
 		}
->>>>>>> origin/nico:src/visitor/SVGConsoleFrameVisitor.java
-	}
-
-	@Override
-	public void label(Diagram d, String text, int x, int y) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void setFontColor(int color) {
+	public void visit() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
-	public void setPointerShape(int shape) {
+	public Diagram getDiagram() {
 		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setLineThickness(int thickness) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setBackgroundColor(int color) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setContourColor(int color) {
-		// TODO Auto-generated method stub
-
+		return null;
 	}
 
 }
