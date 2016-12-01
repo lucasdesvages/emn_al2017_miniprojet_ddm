@@ -78,7 +78,7 @@ public class SVGConsoleFrameVisitor implements Visitor {
 	}
 
 	private void drawNonEmptyDiagram(IDiagram d, boolean frame, boolean svg, boolean console) {
-
+				
 	}
 
 	@Override

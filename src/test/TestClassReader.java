@@ -1,9 +1,11 @@
+package test;
+
 /**
  * Classe de test à dessiner
  * 
  */
 
-public class TestClassReader {
+public class TestClassReader implements TestInterface {
 
 	private double attr1;
 	private int attr2;
