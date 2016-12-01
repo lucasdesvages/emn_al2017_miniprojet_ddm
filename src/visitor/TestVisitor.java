@@ -1,3 +1,6 @@
+package visitor;
+import diagram.EmptyDiagram;
+
 public class TestVisitor {
 
 	

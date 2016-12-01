@@ -1,13 +1,21 @@
+package visitor;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.util.ArrayList;
+
 import javax.swing.JFrame;
+
 import org.apache.batik.dom.GenericDOMImplementation;
 import org.apache.batik.svggen.SVGGraphics2D;
 import org.apache.batik.swing.JSVGCanvas;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
+
+import types.Type;
+import diagram.Diagram;
 
 public class SVGConsoleFrameVisitor implements Visitor {
 
@@ -15,9 +23,9 @@ public class SVGConsoleFrameVisitor implements Visitor {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void draw(IDiagram d, boolean frame, boolean svg, boolean console) {
+	public void draw(Diagram d, boolean frame, boolean svg, boolean console) {
 
-		if (d.IsEmptyDiagram()) { // Draw the empty diagram
+		if (d.isEmpty()) { // Draw the empty diagram
 			drawEmptyDiagram(frame, svg, console);
 		}
 
@@ -32,7 +40,8 @@ public class SVGConsoleFrameVisitor implements Visitor {
 		File image = null;
 
 		// Get a DOMImplementation.
-		DOMImplementation domImpl = GenericDOMImplementation.getDOMImplementation();
+		DOMImplementation domImpl = GenericDOMImplementation
+				.getDOMImplementation();
 		// Create an instance of org.w3c.dom.Document.
 		Document document = domImpl.createDocument(fileName, "svg", null);
 		// Create an instance of SVGCanvas in order to display it in a JFrame.
@@ -70,19 +79,41 @@ public class SVGConsoleFrameVisitor implements Visitor {
 			jframe.setVisible(true);
 			jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		}
-		
-		if(!svg){ //Delete the so useless svg file
+
+		if (!svg) { // Delete the so useless svg file
 			image.delete();
 		}
-		
-	}
 
+<<<<<<< HEAD:src/SVGConsoleFrameVisitor.java
 	private void drawNonEmptyDiagram(IDiagram d, boolean frame, boolean svg, boolean console) {
 				
+=======
+	}
+
+	private void drawNonEmptyDiagram(Diagram d, boolean frame, boolean svg,
+			boolean console) {
+		ArrayList<Type> toDescribe = new ArrayList<Type>();
+		for (int i = 0; i != d.getClasses().size(); i++) {
+			if (d.getToDescribe().get(i)) {
+				toDescribe.add(d.getClasses().get(i));
+			}
+		}
+		if (console) {
+			for (int i = 0; i != toDescribe.size(); i++) {
+				System.out.println(toDescribe.get(i).toString());
+			}
+		}
+		if (frame) {
+			// lancer ihm
+		}
+		if (svg) {
+			// dessiner le svg
+		}
+>>>>>>> origin/nico:src/visitor/SVGConsoleFrameVisitor.java
 	}
 
 	@Override
-	public void label(IDiagram d, String text, int x, int y) {
+	public void label(Diagram d, String text, int x, int y) {
 		// TODO Auto-generated method stub
 
 	}
