@@ -83,11 +83,6 @@ public class SVGConsoleFrameVisitor implements Visitor {
 		if (!svg) { // Delete the so useless svg file
 			image.delete();
 		}
-
-<<<<<<< HEAD:src/SVGConsoleFrameVisitor.java
-	private void drawNonEmptyDiagram(IDiagram d, boolean frame, boolean svg, boolean console) {
-				
-=======
 	}
 
 	private void drawNonEmptyDiagram(Diagram d, boolean frame, boolean svg,
@@ -109,7 +104,6 @@ public class SVGConsoleFrameVisitor implements Visitor {
 		if (svg) {
 			// dessiner le svg
 		}
->>>>>>> origin/nico:src/visitor/SVGConsoleFrameVisitor.java
 	}
 
 	@Override
