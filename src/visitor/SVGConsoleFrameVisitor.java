@@ -107,39 +107,15 @@ public class SVGConsoleFrameVisitor implements Visitor {
 	}
 
 	@Override
-	public void label(Diagram d, String text, int x, int y) {
+	public void visit() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
-	public void setFontColor(int color) {
+	public Diagram getDiagram() {
 		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setPointerShape(int shape) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setLineThickness(int thickness) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setBackgroundColor(int color) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setContourColor(int color) {
-		// TODO Auto-generated method stub
-
+		return null;
 	}
 
 }
