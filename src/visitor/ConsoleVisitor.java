@@ -12,7 +12,7 @@ public class ConsoleVisitor extends AbstractVisitor implements Visitor {
 	}
 
 	@Override
-	public void visit() {
+	public void draw() {
 		ArrayList<Type> toDescribe = new ArrayList<Type>();
 		for (int i = 0; i != getDiagram().getClasses().size(); i++) {
 			if (getDiagram().getToDescribe().get(i)) {

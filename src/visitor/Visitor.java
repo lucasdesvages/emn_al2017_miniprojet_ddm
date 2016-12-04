@@ -4,7 +4,7 @@ import diagram.Diagram;
 
 public interface Visitor {
 
-	void visit();
+	void draw();
 
 	Diagram getDiagram();
 

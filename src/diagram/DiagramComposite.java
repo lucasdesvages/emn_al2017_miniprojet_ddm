@@ -2,7 +2,6 @@ package diagram;
 
 import java.util.ArrayList;
 
-import fabriques.TypeBuilder;
 import types.Type;
 
 public class DiagramComposite extends AbstractDiagram implements Diagram {

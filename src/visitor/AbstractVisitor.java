@@ -10,7 +10,7 @@ public abstract class AbstractVisitor implements Visitor {
 		this.d = d;
 	}
 
-	abstract public void visit();
+	abstract public void draw();
 
 	@Override
 	public Diagram getDiagram() {
