@@ -94,7 +94,7 @@ public abstract class AbstractDiagram implements Diagram {
 	abstract public void add(Class<?> c, int x, int y);
 
 	@Override
-	abstract public void insert(Diagram d, int x, int y);
+	abstract public void insert(Diagram d);
 
 	@Override
 	abstract public ArrayList<String[]> getDescription();

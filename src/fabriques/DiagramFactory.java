@@ -1,7 +1,6 @@
 package fabriques;
 
 import diagram.Diagram;
-import types.Type;
 
 public interface DiagramFactory<T> {
 

@@ -2,9 +2,6 @@ package diagram;
 
 import java.util.ArrayList;
 
-import fabriques.TypeBuilder;
-import types.Type;
-
 public class DiagramComposite extends AbstractDiagram implements Diagram {
 
 	public DiagramComposite(Class<?> c, Diagram d, int x, int y) {
@@ -38,9 +35,9 @@ public class DiagramComposite extends AbstractDiagram implements Diagram {
 	}
 
 	@Override
-	public void insert(Diagram d, int x, int y) {
-		// TODO Auto-generated method stub
-
+	public void insert(Diagram d) {
+		Diagram lastDiagram = getLastDiagram();
+		lastDiagram.setDiagram(d);
 	}
 
 	@Override

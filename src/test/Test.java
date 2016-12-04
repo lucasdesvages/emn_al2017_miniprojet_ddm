@@ -14,6 +14,8 @@ public class Test {
 
 		Diagram vide = fab.createEmptyDiagram();
 		Diagram d = fab.createDiagram(TestClassReader.class, vide, 0, 0);
+		
+		
 
 	}
 }

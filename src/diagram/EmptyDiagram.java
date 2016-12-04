@@ -1,16 +1,10 @@
 package diagram;
 
+import java.util.ArrayList;
+
 public class EmptyDiagram extends AbstractDiagram implements Diagram {
 
 	private static EmptyDiagram instance;
-
-	public EmptyDiagram(DiagramState state) {
-		super(state);
-	}
-
-	public EmptyDiagram() {
-		super(null);
-	}
 
 	public static EmptyDiagram getInstance() {
 		if (instance == null) {
@@ -20,27 +14,33 @@ public class EmptyDiagram extends AbstractDiagram implements Diagram {
 	}
 
 	@Override
-	public void add(Class<?> c) {
-		// TODO Auto-generated method stub
-
+	public boolean isEmpty() {
+		return true;
 	}
 
 	@Override
-	public void describe() {
-		// TODO Auto-generated method stub
-
+	public Diagram createEmptyDiagram() {
+		return getInstance();
 	}
 
 	@Override
-	public Diagram createDiagramWithState(DiagramState s) {
-		// TODO Auto-generated method stub
+	public Diagram createDiagram(Class<?> c, Diagram diagram, int x, int y) {
+		return new DiagramComposite(c, diagram, x, y);
+	}
+
+	@Override
+	public void add(Class<?> c, int x, int y) {
+		insert(new DiagramComposite(c, this, x, y));
+	}
+
+	@Override
+	public void insert(Diagram d) {
+		d.setDiagram(this);
+	}
+
+	@Override
+	public ArrayList<String[]> getDescription() {
 		return null;
-	}
-
-	@Override
-	public void setDiagram(Diagram d) {
-		// TODO Auto-generated method stub
-
 	}
 
 }
