@@ -3,6 +3,7 @@ package test;
 import java.awt.geom.AffineTransform;
 
 import visitor.ConsoleVisitor;
+import visitor.SVGVisitor;
 import visitor.Visitor;
 import diagram.Diagram;
 import diagram.DiagramComposite;
@@ -15,7 +16,13 @@ public class Test {
 		DiagramFactory<Diagram> fab = new DiagramComposite();
 
 		Diagram vide = fab.createEmptyDiagram();
-		Diagram d = fab.createDiagram(TestClassReader.class, vide, 0, 0);
+		Diagram d = fab.createDiagram(TestClassReader.class, vide, 10, 10);
 
+		// d.add(TestInterface.class, 100, 10);
+		// d.add(TestInterface.class, 200, 10);
+		// d.add(SVGVisitor.class, 50, 50);
+
+		SVGVisitor visitor = new SVGVisitor(d, "DiagramTest");
+		visitor.draw();
 	}
 }
