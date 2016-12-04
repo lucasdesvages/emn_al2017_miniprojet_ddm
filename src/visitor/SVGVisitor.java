@@ -38,6 +38,9 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 	// Hauteur max calculée pendant le dessin
 	private static int hMax = 0;
 
+	// Hauteur max courante
+	private static int hMaxCourante = hMax;
+
 	// Default Font
 	Font defaultFont = new Font("default", Font.PLAIN, 12);
 	// Font metrics to get a text width
@@ -96,16 +99,16 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 		if (!d.isEmpty()) {
 			if (largeurCompt < largeurMax) {
 				int[] lh = drawType(d, x, y, g);
-				if (lh[1] > hMax) {
-					hMax = lh[1];
+				if (lh[1] > hMaxCourante) {
+					hMaxCourante = lh[1];
 				}
 				drawDiagram(d.getDiagram(), x + margeHor + lh[0], y, g);
 			} else {
-				int[] lh = drawType(d, margeHor, 2 * margeVer + hMax, g);
+				hMax += hMaxCourante + margeVer;
+				int[] lh = drawType(d, margeHor, margeVer + hMax, g);
+				hMaxCourante = lh[1];
 				largeurCompt = 1;
-				drawDiagram(d.getDiagram(), 2 * margeHor + lh[0], y + hMax
-						+ margeVer, g);
-				// hMax = 0;
+				drawDiagram(d.getDiagram(), 2 * margeHor + lh[0], y + hMax, g);
 			}
 		}
 	}

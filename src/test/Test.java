@@ -25,6 +25,7 @@ public class Test {
 		d.add(TypeBuilder.class);
 		d.add(TypeBuilder.class);
 		d.add(TypeBuilder.class);
+		d.add(TypeBuilder.class);
 
 		ConsoleVisitor cv = new ConsoleVisitor(d);
 		cv.draw();
