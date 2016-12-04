@@ -15,7 +15,7 @@ public class DiagramComposite extends AbstractDiagram implements Diagram {
 
 	@Override
 	public boolean isEmpty() {
-		return true;
+		return false;
 	}
 
 	@Override
