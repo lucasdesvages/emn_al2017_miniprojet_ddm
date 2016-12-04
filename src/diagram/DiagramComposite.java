@@ -2,7 +2,6 @@ package diagram;
 
 import java.util.ArrayList;
 
-
 public class DiagramComposite extends AbstractDiagram implements Diagram {
 
 	public DiagramComposite(Class<?> c, Diagram d, int x, int y) {
@@ -15,7 +14,7 @@ public class DiagramComposite extends AbstractDiagram implements Diagram {
 
 	@Override
 	public boolean isEmpty() {
-		return true;
+		return false;
 	}
 
 	@Override

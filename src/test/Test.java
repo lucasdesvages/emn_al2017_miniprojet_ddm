@@ -1,10 +1,11 @@
 package test;
 
+import java.awt.geom.AffineTransform;
+
 import visitor.ConsoleVisitor;
 import visitor.Visitor;
 import diagram.Diagram;
 import diagram.DiagramComposite;
-
 import fabriques.DiagramFactory;
 
 public class Test {
@@ -15,9 +16,6 @@ public class Test {
 
 		Diagram vide = fab.createEmptyDiagram();
 		Diagram d = fab.createDiagram(TestClassReader.class, vide, 0, 0);
-		
-		
-
 
 	}
 }
