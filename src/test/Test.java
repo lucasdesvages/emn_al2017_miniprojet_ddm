@@ -13,11 +13,11 @@ public class Test {
 		DiagramFactory<Diagram> fab = new DiagramComposite();
 
 		Diagram vide = fab.createEmptyDiagram();
-		Diagram d = fab.createDiagram(TestClassReader.class, vide, 10, 10);
+		Diagram d = fab.createDiagram(TestClassReader.class, vide);
 
-		// d.add(TestInterface.class, 100, 10);
-		// d.add(TestInterface.class, 200, 10);
-		// d.add(SVGVisitor.class, 50, 50);
+		d.add(TestInterface.class);
+		d.add(TestInterface.class);
+		d.add(SVGVisitor.class);
 
 		ConsoleVisitor cv = new ConsoleVisitor(d);
 		cv.draw();

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class DiagramComposite extends AbstractDiagram implements Diagram {
 
-	public DiagramComposite(Class<?> c, Diagram d, int x, int y) {
-		super(c, d, x, y);
+	public DiagramComposite(Class<?> c, Diagram d) {
+		super(c, d);
 	}
 
 	public DiagramComposite() {
@@ -23,15 +23,15 @@ public class DiagramComposite extends AbstractDiagram implements Diagram {
 	}
 
 	@Override
-	public Diagram createDiagram(Class<?> c, Diagram diagram, int x, int y) {
-		return new DiagramComposite(c, diagram, x, y);
+	public Diagram createDiagram(Class<?> c, Diagram diagram) {
+		return new DiagramComposite(c, diagram);
 	}
 
 	@Override
-	public void add(Class<?> c, int x, int y) {
+	public void add(Class<?> c) {
 		Diagram lastDiagram = getLastDiagram();
 		lastDiagram.setDiagram(new DiagramComposite(c, EmptyDiagram
-				.getInstance(), x, y));
+				.getInstance()));
 	}
 
 	@Override

@@ -4,17 +4,17 @@ import diagram.Diagram;
 
 public abstract class AbstractVisitor implements Visitor {
 
-	private Diagram d;
+	private Diagram diagram;
 
 	public AbstractVisitor(Diagram d) {
-		this.d = d;
+		this.diagram = d;
 	}
 
 	abstract public void draw();
 
 	@Override
 	public Diagram getDiagram() {
-		return d;
+		return diagram;
 	}
 
 }

@@ -16,14 +16,6 @@ public interface DiagramAccessors<T> {
 
 	void setToDescribe(boolean b);
 
-	int getX();
-
-	void setX(int x);
-
-	int getY();
-
-	void setY(int y);
-
 	boolean isEmpty();
 
 }

@@ -7,17 +7,13 @@ import types.Type;
 
 public abstract class AbstractDiagram implements Diagram {
 
-	private int x;
-	private int y;
 	private Diagram diagram;
 	private Type type;
 	private boolean toDescribe;
 
-	public AbstractDiagram(Class<?> c, Diagram d, int x, int y) {
+	public AbstractDiagram(Class<?> c, Diagram d) {
 		this.type = TypeBuilder.create(c);
 		this.diagram = d;
-		this.x = x;
-		this.y = y;
 		this.toDescribe = true;
 	}
 
@@ -59,26 +55,7 @@ public abstract class AbstractDiagram implements Diagram {
 		toDescribe = b;
 	}
 
-	@Override
-	public int getX() {
-		return x;
-	}
-
-	@Override
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	@Override
-	public int getY() {
-		return y;
-	}
-
-	@Override
-	public void setY(int y) {
-		this.y = y;
-
-	}
+	
 
 	@Override
 	abstract public boolean isEmpty();
@@ -87,11 +64,10 @@ public abstract class AbstractDiagram implements Diagram {
 	abstract public Diagram createEmptyDiagram();
 
 	@Override
-	abstract public Diagram createDiagram(Class<?> c, Diagram diagram, int x,
-			int y);
+	abstract public Diagram createDiagram(Class<?> c, Diagram diagram);
 
 	@Override
-	abstract public void add(Class<?> c, int x, int y);
+	abstract public void add(Class<?> c);
 
 	@Override
 	abstract public void insert(Diagram d);

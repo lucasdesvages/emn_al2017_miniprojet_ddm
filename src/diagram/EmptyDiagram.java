@@ -24,13 +24,13 @@ public class EmptyDiagram extends AbstractDiagram implements Diagram {
 	}
 
 	@Override
-	public Diagram createDiagram(Class<?> c, Diagram diagram, int x, int y) {
-		return new DiagramComposite(c, diagram, x, y);
+	public Diagram createDiagram(Class<?> c, Diagram diagram) {
+		return new DiagramComposite(c, diagram);
 	}
 
 	@Override
-	public void add(Class<?> c, int x, int y) {
-		insert(new DiagramComposite(c, this, x, y));
+	public void add(Class<?> c) {
+		insert(new DiagramComposite(c, this));
 	}
 
 	@Override
