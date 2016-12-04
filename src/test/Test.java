@@ -1,10 +1,7 @@
 package test;
 
-import java.awt.geom.AffineTransform;
-
 import visitor.ConsoleVisitor;
 import visitor.SVGVisitor;
-import visitor.Visitor;
 import diagram.Diagram;
 import diagram.DiagramComposite;
 import fabriques.DiagramFactory;
@@ -21,6 +18,9 @@ public class Test {
 		// d.add(TestInterface.class, 100, 10);
 		// d.add(TestInterface.class, 200, 10);
 		// d.add(SVGVisitor.class, 50, 50);
+
+		ConsoleVisitor cv = new ConsoleVisitor(d);
+		cv.draw();
 
 		SVGVisitor visitor = new SVGVisitor(d, "DiagramTest");
 		visitor.draw();

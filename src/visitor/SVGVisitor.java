@@ -64,7 +64,8 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 
 		SVGGraphics2D g2 = new SVGGraphics2D(document);
 
-		drawDiagram(this.getDiagram(), 0, 0, g2);
+		drawDiagram(this.getDiagram(), getDiagram().getX(),
+				getDiagram().getY(), g2);
 
 		SVGCanvas.setSize(800, 600);
 
@@ -139,7 +140,14 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 	 * @return int height
 	 */
 	public int getHeight(Type t) {
-		return (110 + 20 * this.getDiagram().getDescription().size() + 20);
+		ArrayList<String[]> description = getDiagram().getDescription();
+		int res = 0;
+		for (int i = 0; i != description.size(); i++) {
+			for (int j = 0; j != description.get(i).length; j++) {
+				res += 1;
+			}
+		}
+		return (30 + 20 * res);
 	}
 
 	public int[] drawType(Diagram d, int x, int y, SVGGraphics2D g2) {
@@ -150,31 +158,37 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 		int[] res = { largeur, hauteur };
 
 		g2.draw(new Rectangle(x, y, largeur, hauteur));
+
 		// Type type
 		System.out.println(d.getType().getType());
+		g2.setFont(new Font("default", Font.PLAIN, 12));
 		g2.drawString(d.getType().getType(), x
-				+ ((largeur + 10 - largeur * 6) / 2), y + 20);
+				+ ((largeur - d.getType().getType().length() * 7) / 2), y + 20);
+
 		// Type name
 		g2.setFont(new Font("default", Font.BOLD, 12));
 		g2.drawString(d.getType().getName(), x
-				+ (largeur + 10 - d.getType().getName().length() * 6) / 2,
-				y + 40);
+				+ ((largeur - d.getType().getName().length() * 7) / 2), y + 40);
+
 		// Type package
 		g2.setFont(new Font("default", Font.PLAIN, 12));
 		g2.drawString(d.getType().getPackage(), x
-				+ ((largeur + 10 - d.getType().getPackage().length() * 6) / 2),
+				+ ((largeur - d.getType().getPackage().length() * 7) / 2),
 				y + 60);
 		g2.drawLine(x, y + 80, x + largeur, y + 80);
 
 		if (!d.getType().getC().isInterface()) {
+
 			// Class fields
 			for (int i = 0; i < ((TypeClass) d.getType()).getFields().length; i++) {
 				g2.drawString(((TypeClass) d.getType()).getFields()[i], x + 20,
 						y + 100 + 20 * i);
 			}
 			g2.drawLine(x, y + 100 + 20
-					* ((TypeClass) d.getType()).getFields().length, largeur,
-					100 + 20 * ((TypeClass) d.getType()).getFields().length);
+					* ((TypeClass) d.getType()).getFields().length,
+					x + largeur,
+					y + 100 + 20 * ((TypeClass) d.getType()).getFields().length);
+
 			// Class constructors
 			for (int i = 0; i < ((TypeClass) d.getType()).getConstructors().length; i++) {
 				g2.drawString(((TypeClass) d.getType()).getConstructors()[i],
