@@ -54,26 +54,21 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 		// Get a DOMImplementation.
 		DOMImplementation domImpl = GenericDOMImplementation
 				.getDOMImplementation();
+
 		// Create an instance of org.w3c.dom.Document.
 		Document document = domImpl.createDocument(name, "svg", null);
+
 		// Create an instance of SVGCanvas in order to display it in a JFrame.
 		JSVGCanvas SVGCanvas = new JSVGCanvas();
 		SVGCanvas.setSize(800, 600);
 
-		File image = null;
-
-		// int largeur = longest element length;
-		// int largeur = this.getWidth(this.getDiagram()) * 7;
-		// hauteur = nombre d'elements du type
-		// int hauteur = this.getHeight();
-
 		SVGGraphics2D g2 = new SVGGraphics2D(document);
 		metrics = g2.getFontMetrics();
 
-		drawDiagram(this.getDiagram(), 10, 10, g2);
+		drawDiagram(this.getDiagram(), margeHor, margeVer, g2);
 
 		// Create the .svg file and write the xml code.
-		image = new File(this.name + ".svg");
+		File image = new File(this.name + ".svg");
 
 		boolean useCSS = true; // we want to use CSS style attributes
 		Writer out;
@@ -97,21 +92,20 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 	}
 
 	private void drawDiagram(Diagram d, int x, int y, SVGGraphics2D g) {
+		largeurCompt++;
 		if (!d.isEmpty()) {
 			if (largeurCompt < largeurMax) {
 				int[] lh = drawType(d, x, y, g);
 				if (lh[1] > hMax) {
 					hMax = lh[1];
-
 				}
-
 				drawDiagram(d.getDiagram(), x + margeHor + lh[0], y, g);
 			} else {
-				largeurCompt = 0;
-				int[] lh = drawType(d, x, y, g);
-				drawDiagram(d.getDiagram(), x + margeHor + lh[0], y + lh[1]
+				int[] lh = drawType(d, margeHor, 2 * margeVer + hMax, g);
+				largeurCompt = 1;
+				drawDiagram(d.getDiagram(), 2 * margeHor + lh[0], y + hMax
 						+ margeVer, g);
-				hMax = 0;
+				// hMax = 0;
 			}
 		}
 	}
@@ -153,7 +147,7 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 		return (30 + 20 * (nbLig));
 	}
 
-	public int[] drawType(Diagram d, int x, int y, SVGGraphics2D g2) {
+	private int[] drawType(Diagram d, int x, int y, SVGGraphics2D g2) {
 
 		g2.setPaint(Color.BLACK);
 		int largeur = this.getWidth(d.getType());
@@ -164,22 +158,30 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 		g2.draw(new Rectangle(x, y, largeur, hauteur));
 
 		// Type type
-		g2.drawString(d.getType().getType(), x
-				+ ((largeur + 10 - d.getType().getType().length() * 6) / 2),
+		g2.drawString(
+				d.getType().getType(),
+				x
+						+ ((largeur - metrics
+								.stringWidth(d.getType().getType())) / 2),
 				y + 20);
 
 		// Type name
 		g2.setFont(new Font("default", Font.BOLD, 12));
-		g2.drawString(d.getType().getName(), x
-				+ ((largeur + 10 - d.getType().getName().length() * 6) / 2),
+		g2.drawString(
+				d.getType().getName(),
+				x
+						+ ((largeur - metrics
+								.stringWidth(d.getType().getName())) / 2),
 				y + 40);
 
 		// Type package
-		// g2.setFont(new Font("default", Font.PLAIN, 12));
+
 		g2.setFont(defaultFont);
-		g2.drawString(d.getType().getPackage(), x
-				+ ((largeur + 10 - d.getType().getPackage().length() * 6) / 2),
-				y + 60);
+		g2.drawString(
+				d.getType().getPackage(),
+				x
+						+ ((largeur - metrics.stringWidth(d.getType()
+								.getPackage())) / 2), y + 60);
 		g2.drawLine(x, y + 80, x + largeur, y + 80);
 
 		if (!d.getType().getC().isInterface()) {
