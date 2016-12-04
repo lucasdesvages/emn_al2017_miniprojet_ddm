@@ -2,6 +2,7 @@ package diagram;
 
 import java.util.ArrayList;
 
+import fabriques.TypeBuilder;
 import types.Type;
 
 public abstract class AbstractDiagram implements Diagram {
@@ -12,12 +13,16 @@ public abstract class AbstractDiagram implements Diagram {
 	private Type type;
 	private boolean toDescribe;
 
-	public AbstractDiagram(Type t, Diagram d, int x, int y) {
-		this.type = t;
+	public AbstractDiagram(Class<?> c, Diagram d, int x, int y) {
+		this.type = TypeBuilder.create(c);
 		this.diagram = d;
 		this.x = x;
 		this.y = y;
 		this.toDescribe = true;
+	}
+
+	public AbstractDiagram() {
+
 	}
 
 	@Override
@@ -82,11 +87,14 @@ public abstract class AbstractDiagram implements Diagram {
 	abstract public Diagram createEmptyDiagram();
 
 	@Override
-	abstract public Diagram createDiagram(Type type, Diagram diagram, int x,
+	abstract public Diagram createDiagram(Class<?> c, Diagram diagram, int x,
 			int y);
 
 	@Override
 	abstract public void add(Class<?> c, int x, int y);
+
+	@Override
+	abstract public void insert(Diagram d, int x, int y);
 
 	@Override
 	abstract public ArrayList<String[]> getDescription();
