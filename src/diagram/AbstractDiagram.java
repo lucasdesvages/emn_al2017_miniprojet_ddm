@@ -1,7 +1,5 @@
 package diagram;
 
-import java.util.ArrayList;
-
 import types.Type;
 
 public abstract class AbstractDiagram implements Diagram {
@@ -15,8 +13,13 @@ public abstract class AbstractDiagram implements Diagram {
 	abstract public Diagram createDiagramWithState(DiagramState s);
 
 	@Override
-	public ArrayList<Diagram> getDiagrams() {
-		return state.getDiagrams();
+	public Diagram getDiagram() {
+		return state.getDiagram();
+	}
+
+	@Override
+	public void setDiagram(Diagram d) {
+		state.setDiagram(d);
 	}
 
 	@Override
@@ -45,18 +48,18 @@ public abstract class AbstractDiagram implements Diagram {
 	}
 
 	@Override
-	public ArrayList<Type> getClasses() {
-		return getState().getClasses();
+	public Type getType() {
+		return getState().getType();
 	}
 
 	@Override
-	public ArrayList<Boolean> getToDescribe() {
+	public boolean getToDescribe() {
 		return getState().getToDescribe();
 	}
 
 	@Override
-	public void setToDescribe(int index, boolean b) {
-		getState().setToDescribe(index, b);
+	public void setToDescribe(boolean b) {
+		getState().setToDescribe(b);
 	}
 
 	@Override
@@ -70,10 +73,8 @@ public abstract class AbstractDiagram implements Diagram {
 	}
 
 	@Override
-	public Diagram createDiagram(ArrayList<Type> TList,
-			ArrayList<Diagram> DList, int x, int y) {
-		return this.createDiagramWithState(state.createDiagram(TList, DList, x,
-				y));
+	public Diagram createDiagram(Type t, Diagram d, int x, int y) {
+		return this.createDiagramWithState(state.createDiagram(t, d, x, y));
 	}
 
 }

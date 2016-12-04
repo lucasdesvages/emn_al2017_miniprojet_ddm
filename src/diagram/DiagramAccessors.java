@@ -1,18 +1,18 @@
 package diagram;
 
-import java.util.ArrayList;
-
 import types.Type;
 
 public interface DiagramAccessors<T> {
 
-	ArrayList<Type> getClasses();
+	Type getType();
 
-	ArrayList<Diagram> getDiagrams();
+	Diagram getDiagram();
 
-	ArrayList<Boolean> getToDescribe();
+	void setDiagram(Diagram d);
 
-	void setToDescribe(int index, boolean b);
+	boolean getToDescribe();
+
+	void setToDescribe(boolean b);
 
 	int getX();
 
