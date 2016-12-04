@@ -1,9 +1,11 @@
 package diagram;
 
+import java.util.ArrayList;
+
 public interface DiagramServices {
 
-	void add(Class<?> c);
+	void add(Class<?> c, int x, int y);
 
-	void describe();
+	ArrayList<String[]> getDescription();
 
 }

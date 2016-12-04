@@ -1,80 +1,94 @@
 package diagram;
 
+import java.util.ArrayList;
+
 import types.Type;
 
 public abstract class AbstractDiagram implements Diagram {
 
-	private DiagramState state;
+	private int x;
+	private int y;
+	private Diagram diagram;
+	private Type type;
+	private boolean toDescribe;
 
-	public AbstractDiagram(DiagramState state) {
-		this.state = state;
-	}
-
-	abstract public Diagram createDiagramWithState(DiagramState s);
-
-	@Override
-	public Diagram getDiagram() {
-		return state.getDiagram();
-	}
-
-	@Override
-	public void setDiagram(Diagram d) {
-		state.setDiagram(d);
-	}
-
-	@Override
-	public int getX() {
-		return state.getX();
-	}
-
-	@Override
-	public void setX(int x) {
-		state.setX(x);
-	}
-
-	@Override
-	public int getY() {
-		return state.getY();
-	}
-
-	@Override
-	public void setY(int y) {
-		state.setY(y);
-	}
-
-	@Override
-	public DiagramState getState() {
-		return state;
+	public AbstractDiagram(Type t, Diagram d, int x, int y) {
+		this.type = t;
+		this.diagram = d;
+		this.x = x;
+		this.y = y;
+		this.toDescribe = true;
 	}
 
 	@Override
 	public Type getType() {
-		return getState().getType();
+		return type;
+	}
+
+	@Override
+	public Diagram getDiagram() {
+		return diagram;
+	}
+
+	@Override
+	public void setDiagram(Diagram d) {
+		this.diagram = d;
+	}
+
+	@Override
+	public Diagram getLastDiagram() {
+		if (getDiagram().isEmpty()) {
+			return this;
+		} else {
+			return getDiagram().getLastDiagram();
+		}
 	}
 
 	@Override
 	public boolean getToDescribe() {
-		return getState().getToDescribe();
+		return toDescribe;
 	}
 
 	@Override
 	public void setToDescribe(boolean b) {
-		getState().setToDescribe(b);
+		toDescribe = b;
 	}
 
 	@Override
-	public boolean isEmpty() {
-		return state.isEmpty();
+	public int getX() {
+		return x;
 	}
 
 	@Override
-	public Diagram createEmptyDiagram() {
-		return this.createDiagramWithState(state.createEmptyDiagram());
+	public void setX(int x) {
+		this.x = x;
 	}
 
 	@Override
-	public Diagram createDiagram(Type t, Diagram d, int x, int y) {
-		return this.createDiagramWithState(state.createDiagram(t, d, x, y));
+	public int getY() {
+		return y;
 	}
+
+	@Override
+	public void setY(int y) {
+		this.y = y;
+
+	}
+
+	@Override
+	abstract public boolean isEmpty();
+
+	@Override
+	abstract public Diagram createEmptyDiagram();
+
+	@Override
+	abstract public Diagram createDiagram(Type type, Diagram diagram, int x,
+			int y);
+
+	@Override
+	abstract public void add(Class<?> c, int x, int y);
+
+	@Override
+	abstract public ArrayList<String[]> getDescription();
 
 }

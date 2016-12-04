@@ -1,27 +1,40 @@
 package diagram;
 
+import java.util.ArrayList;
+
+import fabriques.TypeBuilder;
+import types.Type;
+
 public class DiagramComposite extends AbstractDiagram implements Diagram {
 
-	public DiagramComposite(DiagramState state) {
-		super(state);
+	public DiagramComposite(Type t, Diagram d, int x, int y) {
+		super(t, d, x, y);
 	}
 
 	@Override
-	public void add(Class<?> c) {
-		
-
+	public boolean isEmpty() {
+		return true;
 	}
 
 	@Override
-	public void describe() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public Diagram createDiagramWithState(DiagramState s) {
+	public Diagram createEmptyDiagram() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Diagram createDiagram(Type type, Diagram diagram, int x, int y) {
+		return new DiagramComposite(type, diagram, x, y);
+	}
+
+	@Override
+	public void add(Class<?> c, int x, int y) {
+		
+	}
+
+	@Override
+	public ArrayList<String[]> getDescription() {
+		return getType().getDescription();
 	}
 
 }

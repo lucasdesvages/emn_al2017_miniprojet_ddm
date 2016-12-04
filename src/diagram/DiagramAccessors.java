@@ -10,6 +10,8 @@ public interface DiagramAccessors<T> {
 
 	void setDiagram(Diagram d);
 
+	Diagram getLastDiagram();
+
 	boolean getToDescribe();
 
 	void setToDescribe(boolean b);
