@@ -47,4 +47,22 @@ public class TestClassReader implements TestInterface {
 		this.attr3 = attr3;
 	}
 
+	@Override
+	public void method1() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int method2() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public String method3() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
