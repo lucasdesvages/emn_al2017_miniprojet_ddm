@@ -104,7 +104,6 @@ public class SVGConsoleFrameVisitor implements Visitor {
 		if (svg) {
 			// dessiner le svg
 		}
-
 	}
 
 	@Override
