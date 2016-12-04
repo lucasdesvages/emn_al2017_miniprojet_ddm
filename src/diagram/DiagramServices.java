@@ -8,4 +8,6 @@ public interface DiagramServices {
 
 	ArrayList<String[]> getDescription();
 
+	void insert(Diagram d, int x, int y);
+
 }

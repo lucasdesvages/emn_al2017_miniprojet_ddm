@@ -7,6 +7,6 @@ public interface DiagramFactory<T> {
 
 	T createEmptyDiagram();
 
-	T createDiagram(Type type, Diagram diagram, int x, int y);
+	T createDiagram(Class<?> c, Diagram diagram, int x, int y);
 
 }
