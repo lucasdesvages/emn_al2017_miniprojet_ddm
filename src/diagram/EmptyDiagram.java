@@ -43,4 +43,8 @@ public class EmptyDiagram extends AbstractDiagram implements Diagram {
 		return null;
 	}
 
+	@Override
+	public void label(String text, int x, int y) {		
+	}
+
 }

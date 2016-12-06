@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Rectangle;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
@@ -81,7 +82,9 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 		metrics = g2.getFontMetrics();
 
 		HashMap<Class<?>, int[]> typePos = new HashMap<Class<?>, int[]>();
-		drawDiagram(this.getDiagram(), margeHor, margeVer, g2, typePos);
+
+		drawDiagram(this.getDiagram(), margeHor, margeVer,typePos);
+
 		drawRelations(typePos);
 
 		// Create the .svg file and write the xml code.
@@ -113,30 +116,30 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 
 	}
 
-	private void drawDiagram(Diagram d, int x, int y, SVGGraphics2D g, HashMap<Class<?>, int[]> typePos) {
+	private void drawDiagram(Diagram d, int x, int y, HashMap<Class<?>, int[]> typePos) {
 		largeurCompt++;
 		if (!d.isEmpty()) {
 
-			
-
 			if (largeurCompt < largeurMax) {
-				int[] lh = drawType(d, x, y, g);
+				int[] lh = drawType(d, x, y);
 				if (lh[1] > hMaxCourante) {
 					hMaxCourante = lh[1];
 				}
 				typePos.put(d.getType().getC(), new int[] { x, y, lh[0], lh[1] });
-				drawDiagram(d.getDiagram(), x + margeHor + lh[0], y, g, typePos);
+				
+				drawDiagram(d.getDiagram(), x + margeHor + lh[0], y, typePos);
+				drawLabels(d, x, y);
+
 			} else {
 				hMax += hMaxCourante + margeVer;
-				int[] lh = drawType(d, margeHor, margeVer + hMax, g);
+				int[] lh = drawType(d, margeHor, margeVer + hMax);
 				hMaxCourante = lh[1];
 				largeurCompt = 1;
 				typePos.put(d.getType().getC(), new int[] { x, y, lh[1] });
-				drawDiagram(d.getDiagram(), 2 * margeHor + lh[0], y + hMax, g, typePos);
+				drawDiagram(d.getDiagram(), 2 * margeHor + lh[0], y + hMax, typePos);
+				drawLabels(d, x, y);
 			}
-			
-
-		}
+		}		
 	}
 
 	/**
@@ -176,7 +179,7 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 		return (30 + 20 * (nbLig));
 	}
 
-	private int[] drawType(Diagram d, int x, int y, SVGGraphics2D g2) {
+	private int[] drawType(Diagram d, int x, int y) {
 
 		g2.setPaint(Color.BLACK);
 		int largeur = this.getWidth(d.getType());
@@ -262,6 +265,22 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 			}
 			BasicStroke normal = new BasicStroke();
 			g2.setStroke(normal);
+		}
+	}
+
+	
+	private void drawLabels(Diagram diagram, int x, int y){
+		if(!diagram.getLabels().isEmpty()){
+			for(int i=0; i<diagram.getLabels().size(); i++){
+				g2.setColor(new Color(200,30,30,200));				
+				g2.fillRoundRect(x+diagram.getLabels().get(i).getX(), 
+						y+diagram.getLabels().get(i).getY(),
+						2*margeHor+(int)(metrics.stringWidth(diagram.getLabels().get(i).getText())),
+						30,20,20);
+				g2.setColor(Color.WHITE);
+				g2.drawString(diagram.getLabels().get(i).getText(), x+margeHor+diagram.getLabels().get(i).getX(), y+diagram.getLabels().get(i).getY()+20);
+				g2.setColor(Color.BLACK);
+			}
 		}
 	}
 

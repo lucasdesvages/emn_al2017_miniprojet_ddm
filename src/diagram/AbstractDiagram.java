@@ -9,11 +9,14 @@ public abstract class AbstractDiagram implements Diagram {
 
 	private Diagram diagram;
 	private Type type;
+	private ArrayList<Label> labels;
+	
 	private boolean toDescribe;
 
 	public AbstractDiagram(Class<?> c, Diagram d) {
 		this.type = TypeBuilder.create(c);
 		this.diagram = d;
+		this.labels = new ArrayList<Label>();
 		this.toDescribe = true;
 	}
 
@@ -55,8 +58,6 @@ public abstract class AbstractDiagram implements Diagram {
 		toDescribe = b;
 	}
 
-	
-
 	@Override
 	abstract public boolean isEmpty();
 
@@ -74,5 +75,10 @@ public abstract class AbstractDiagram implements Diagram {
 
 	@Override
 	abstract public ArrayList<String[]> getDescription();
+	
+	@Override
+	public ArrayList<Label> getLabels() {
+		return labels;
+	}
 
 }
