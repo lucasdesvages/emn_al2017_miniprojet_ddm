@@ -16,7 +16,8 @@ public class Test {
 
 		Diagram vide = fab.createEmptyDiagram();
 		Diagram d = fab.createDiagram(TestClassReader.class, vide);
-
+		
+		d.label("Mon label", 50, 50);
 		d.add(TestInterface.class);
 		d.add(TestInterface.class);
 		d.add(SVGVisitor.class);
@@ -28,7 +29,7 @@ public class Test {
 		d.add(TypeBuilder.class);
 		d.add(TypeBuilder.class);
 
-		ConsoleVisitor cv = new ConsoleVisitor(d);
+		//ConsoleVisitor cv = new ConsoleVisitor(d);
 		//cv.interprete();
 
 		SVGVisitor visitor = new SVGVisitor(d, "DiagramTest");

@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
+import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.io.File;
 import java.io.FileOutputStream;

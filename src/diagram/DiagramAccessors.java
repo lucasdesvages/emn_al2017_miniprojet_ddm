@@ -1,5 +1,7 @@
 package diagram;
 
+import java.util.ArrayList;
+
 import types.Type;
 
 public interface DiagramAccessors<T> {
@@ -17,5 +19,7 @@ public interface DiagramAccessors<T> {
 	void setToDescribe(boolean b);
 
 	boolean isEmpty();
+	
+	ArrayList<Label> getLabels();
 
 }

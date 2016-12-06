@@ -25,23 +25,23 @@
       ><text x="40" xml:space="preserve" y="220" style="font-style:italic; stroke:none;"
       >TestClassReader()</text
       ><text x="40" xml:space="preserve" y="240" style="stroke:none;"
-      >method1() : void</text
-      ><text x="40" xml:space="preserve" y="260" style="stroke:none;"
-      >method2() : int</text
-      ><text x="40" xml:space="preserve" y="280" style="stroke:none;"
-      >getAttr2() : int</text
-      ><text x="40" xml:space="preserve" y="300" style="stroke:none;"
-      >setAttr3(String) : void</text
-      ><text x="40" xml:space="preserve" y="320" style="stroke:none;"
-      >setAttr1(double) : void</text
-      ><text x="40" xml:space="preserve" y="340" style="stroke:none;"
       >getAttr3() : String</text
-      ><text x="40" xml:space="preserve" y="360" style="stroke:none;"
-      >method3() : String</text
-      ><text x="40" xml:space="preserve" y="380" style="stroke:none;"
-      >getAttr1() : double</text
-      ><text x="40" xml:space="preserve" y="400" style="stroke:none;"
+      ><text x="40" xml:space="preserve" y="260" style="stroke:none;"
+      >setAttr1(double) : void</text
+      ><text x="40" xml:space="preserve" y="280" style="stroke:none;"
       >setAttr2(int) : void</text
+      ><text x="40" xml:space="preserve" y="300" style="stroke:none;"
+      >method3() : String</text
+      ><text x="40" xml:space="preserve" y="320" style="stroke:none;"
+      >method1() : void</text
+      ><text x="40" xml:space="preserve" y="340" style="stroke:none;"
+      >method2() : int</text
+      ><text x="40" xml:space="preserve" y="360" style="stroke:none;"
+      >getAttr1() : double</text
+      ><text x="40" xml:space="preserve" y="380" style="stroke:none;"
+      >setAttr3(String) : void</text
+      ><text x="40" xml:space="preserve" y="400" style="stroke:none;"
+      >getAttr2() : int</text
       ><rect x="261" width="123" height="150" y="20" style="fill:none;"
       /><text x="271" xml:space="preserve" y="40" style="stroke:none;"
       >&lt;&lt;Java Interface&gt;&gt;</text
@@ -51,11 +51,11 @@
       >test</text
       ><line y2="100" style="fill:none;" x1="261" x2="384" y1="100"
       /><text x="281" xml:space="preserve" y="120" style="stroke:none;"
-      >method1() : void</text
-      ><text x="281" xml:space="preserve" y="140" style="stroke:none;"
-      >method2() : int</text
-      ><text x="281" xml:space="preserve" y="160" style="stroke:none;"
       >method3() : String</text
+      ><text x="281" xml:space="preserve" y="140" style="stroke:none;"
+      >method1() : void</text
+      ><text x="281" xml:space="preserve" y="160" style="stroke:none;"
+      >method2() : int</text
       ><rect x="404" width="123" height="150" y="20" style="fill:none;"
       /><text x="414" xml:space="preserve" y="40" style="stroke:none;"
       >&lt;&lt;Java Interface&gt;&gt;</text
@@ -65,11 +65,11 @@
       >test</text
       ><line y2="100" style="fill:none;" x1="404" x2="527" y1="100"
       /><text x="424" xml:space="preserve" y="120" style="stroke:none;"
-      >method1() : void</text
-      ><text x="424" xml:space="preserve" y="140" style="stroke:none;"
-      >method2() : int</text
-      ><text x="424" xml:space="preserve" y="160" style="stroke:none;"
       >method3() : String</text
+      ><text x="424" xml:space="preserve" y="140" style="stroke:none;"
+      >method1() : void</text
+      ><text x="424" xml:space="preserve" y="160" style="stroke:none;"
+      >method2() : int</text
       ><rect x="547" width="375" height="590" y="20" style="fill:none;"
       /><text x="690" xml:space="preserve" y="40" style="stroke:none;"
       >&lt;&lt;Java Class&gt;&gt;</text
@@ -102,29 +102,29 @@
       /><text x="567" xml:space="preserve" y="340" style="font-style:italic; stroke:none;"
       >SVGVisitor(Diagram, String)</text
       ><text x="567" xml:space="preserve" y="360" style="stroke:none;"
-      >interprete() : void</text
-      ><text x="567" xml:space="preserve" y="380" style="stroke:none;"
-      >getHeight(Diagram) : int</text
-      ><text x="567" xml:space="preserve" y="400" style="stroke:none;"
-      >getWidth(Type) : int</text
-      ><text x="567" xml:space="preserve" y="420" style="stroke:none;"
       >label(String, int, int) : void</text
-      ><text x="567" xml:space="preserve" y="440" style="stroke:none;"
-      >drawRelations(HashMap) : void</text
-      ><text x="567" xml:space="preserve" y="460" style="stroke:none;"
+      ><text x="567" xml:space="preserve" y="380" style="stroke:none;"
+      >interprete() : void</text
+      ><text x="567" xml:space="preserve" y="400" style="stroke:none;"
+      >setBackgroundColor(int) : void</text
+      ><text x="567" xml:space="preserve" y="420" style="stroke:none;"
       >setLineThickness(int) : void</text
-      ><text x="567" xml:space="preserve" y="480" style="stroke:none;"
+      ><text x="567" xml:space="preserve" y="440" style="stroke:none;"
       >setContourColor(int) : void</text
+      ><text x="567" xml:space="preserve" y="460" style="stroke:none;"
+      >drawRelations(HashMap) : void</text
+      ><text x="567" xml:space="preserve" y="480" style="stroke:none;"
+      >getHeight(Diagram) : int</text
       ><text x="567" xml:space="preserve" y="500" style="stroke:none;"
-      >setPointerShape(int) : void</text
+      >getWidth(Type) : int</text
       ><text x="567" xml:space="preserve" y="520" style="stroke:none;"
       >setFontColor(int) : void</text
       ><text x="567" xml:space="preserve" y="540" style="stroke:none;"
-      >drawDiagram(Diagram, int, int, SVGGraphics2D, HashMap) : void</text
+      >setPointerShape(int) : void</text
       ><text x="567" xml:space="preserve" y="560" style="stroke:none;"
       >drawType(Diagram, int, int, SVGGraphics2D) : int[]</text
       ><text x="567" xml:space="preserve" y="580" style="stroke:none;"
-      >setBackgroundColor(int) : void</text
+      >drawDiagram(Diagram, int, int, SVGGraphics2D, HashMap) : void</text
       ><rect x="942" width="182" height="190" y="20" style="fill:none;"
       /><text x="988" xml:space="preserve" y="40" style="stroke:none;"
       >&lt;&lt;Java Class&gt;&gt;</text
@@ -140,7 +140,7 @@
       >interprete() : void</text
       ><text x="962" xml:space="preserve" y="180" style="stroke:none;"
       >drawDiagram(Diagram) : void</text
-      ><rect x="20" width="254" height="290" y="630" style="fill:none;"
+      ><rect x="20" width="254" height="310" y="630" style="fill:none;"
       /><text x="102" xml:space="preserve" y="650" style="stroke:none;"
       >&lt;&lt;Java Class&gt;&gt;</text
       ><text x="92" xml:space="preserve" y="670" style="font-weight:bold; stroke:none;"
@@ -162,8 +162,10 @@
       ><text x="40" xml:space="preserve" y="850" style="stroke:none;"
       >createEmptyDiagram() : Diagram</text
       ><text x="40" xml:space="preserve" y="870" style="stroke:none;"
-      >createDiagram(Class, Diagram) : Diagram</text
+      >label(String, int, int) : void</text
       ><text x="40" xml:space="preserve" y="890" style="stroke:none;"
+      >createDiagram(Class, Diagram) : Diagram</text
+      ><text x="40" xml:space="preserve" y="910" style="stroke:none;"
       >getDescription() : ArrayList</text
       ><rect x="294" width="154" height="210" y="630" style="fill:none;"
       /><text x="326" xml:space="preserve" y="650" style="stroke:none;"
@@ -221,18 +223,18 @@
       >TypeBuilder()</text
       ><text x="788" xml:space="preserve" y="770" style="stroke:none;"
       >create(Class) : Type</text
-      ><rect x="20" width="130" height="150" y="940" style="fill:none;"
-      /><text x="40" xml:space="preserve" y="960" style="stroke:none;"
+      ><rect x="20" width="130" height="150" y="960" style="fill:none;"
+      /><text x="40" xml:space="preserve" y="980" style="stroke:none;"
       >&lt;&lt;Java Class&gt;&gt;</text
-      ><text x="52" xml:space="preserve" y="980" style="font-weight:bold; stroke:none;"
+      ><text x="52" xml:space="preserve" y="1000" style="font-weight:bold; stroke:none;"
       >TypeBuilder</text
-      ><text x="59" xml:space="preserve" y="1000" style="stroke:none;"
+      ><text x="59" xml:space="preserve" y="1020" style="stroke:none;"
       >fabriques</text
-      ><line y2="1020" style="fill:none;" x1="20" x2="150" y1="1020"
-      /><line y2="1040" style="fill:none;" x1="20" x2="150" y1="1040"
-      /><text x="40" xml:space="preserve" y="1060" style="font-style:italic; stroke:none;"
+      ><line y2="1040" style="fill:none;" x1="20" x2="150" y1="1040"
+      /><line y2="1060" style="fill:none;" x1="20" x2="150" y1="1060"
+      /><text x="40" xml:space="preserve" y="1080" style="font-style:italic; stroke:none;"
       >TypeBuilder()</text
-      ><text x="40" xml:space="preserve" y="1080" style="stroke:none;"
+      ><text x="40" xml:space="preserve" y="1100" style="stroke:none;"
       >create(Class) : Type</text
       ><line y2="630" style="fill:none;" x1="547" x2="294" y1="20"
       /><line y2="630" style="fill:none;" x1="942" x2="294" y1="20"

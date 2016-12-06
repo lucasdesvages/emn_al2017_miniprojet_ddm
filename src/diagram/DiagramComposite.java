@@ -45,4 +45,11 @@ public class DiagramComposite extends AbstractDiagram implements Diagram {
 		return getType().getDescription();
 	}
 
+	@Override
+	public void label(String text, int x, int y) {
+		ArrayList<Label> labels = getLabels();
+		labels.add(new Label(text, x, y));
+		
+	}
+
 }
