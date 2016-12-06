@@ -28,7 +28,7 @@ public class Test {
 		d.add(TypeBuilder.class);
 
 		ConsoleVisitor cv = new ConsoleVisitor(d);
-		cv.interprete();
+		//cv.interprete();
 
 		SVGVisitor visitor = new SVGVisitor(d, "DiagramTest");
 		visitor.interprete();

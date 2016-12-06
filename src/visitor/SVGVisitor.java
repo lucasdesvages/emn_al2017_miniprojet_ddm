@@ -1,5 +1,6 @@
 package visitor;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -11,10 +12,12 @@ import java.io.Writer;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import org.apache.batik.dom.GenericDOMImplementation;
 import org.apache.batik.svggen.SVGGraphics2D;
 import org.apache.batik.swing.JSVGCanvas;
+import org.apache.batik.swing.JSVGScrollPane;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 
@@ -65,16 +68,10 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 
 		// Create an instance of SVGCanvas in order to display it in a JFrame.
 		JSVGCanvas SVGCanvas = new JSVGCanvas();
-		SVGCanvas.setSize(800, 600);
-
+		SVGCanvas.setSize(1280, 600);
 		
+		//Create the svg file
 		File image = null;
-
-		// int largeur = longest element length;
-		//int largeur = this.getWidth(this.getDiagram()) * 7;
-		// hauteur = nombre d'elements du type
-		//int hauteur = this.getHeight();		
-		
 		
 		SVGGraphics2D g2 = new SVGGraphics2D(document);
 
@@ -98,12 +95,17 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 
 		// Create a JFrame and add the SVGCanvas to display the new
 		JFrame jframe = new JFrame(this.name + ".svg");
-		jframe.setSize(800, 600);
-		jframe.getContentPane().add(SVGCanvas);
+		JPanel panel = new JPanel();
+		JSVGScrollPane scroll = new JSVGScrollPane(SVGCanvas);
+		panel.setLayout(new BorderLayout());
+		panel.add(scroll,BorderLayout.CENTER);
+		panel.setSize(SVGCanvas.getSize());
+		jframe.setSize(SVGCanvas.getSize());
+		jframe.add(panel);	
 		jframe.setLocationRelativeTo(null);
 		jframe.setVisible(true);
 		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		
 	}
 
 	private void drawDiagram(Diagram d, int x, int y, SVGGraphics2D g) {
