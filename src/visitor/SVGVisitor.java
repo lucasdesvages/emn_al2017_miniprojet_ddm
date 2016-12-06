@@ -48,19 +48,30 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 	// Hauteur max courante
 	private static int hMaxCourante = hMax;
 
-	// Default Font
+	// Police par defaut
 	private Font defaultFont = new Font("default", Font.PLAIN, 12);
-	// Font metrics to get a text width
+	// Metriques de police (utilisees pour obtenir la taille d'une string)
 	private FontMetrics metrics;
-	
+	//Objet de dessin
 	private SVGGraphics2D g2;
 
-
+	/**
+	 * Construit un Visiteur SVG capable 
+	 * 
+	 * @param diagram - Diagram
+	 * @param name    - Nom du diagramme et du fichier svg
+	 * 
+	 */
 	public SVGVisitor(Diagram diagram, String name) {
 		super(diagram);
 		this.name = name;
 	}
-
+	
+	/**
+	 * Fonction d'interpretation du diagramme. Elle dessine le diagramme dans un fichier SVG
+	 * et l'affiche dans une Frame
+	 * 
+	 */
 	@Override
 	public void interprete() {
 
@@ -79,7 +90,6 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 		File image = null;
 		
 		g2 = new SVGGraphics2D(document);
-
 		metrics = g2.getFontMetrics();
 		
 		HashMap<Class<?>, int[]> typePos = new HashMap<Class<?>, int[]>();
