@@ -88,11 +88,11 @@ public class SVGConsoleFrameVisitor implements Visitor {
 	private void drawNonEmptyDiagram(Diagram d, boolean frame, boolean svg,
 			boolean console) {
 		ArrayList<Type> toDescribe = new ArrayList<Type>();
-		for (int i = 0; i != d.getType().size(); i++) {
+		/*for (int i = 0; i != d.getType().size(); i++) {
 			if (d.getToDescribe().get(i)) {
 				toDescribe.add(d.getTypes().get(i));
 			}
-		}
+		}*/
 		if (console) {
 			for (int i = 0; i != toDescribe.size(); i++) {
 				System.out.println(toDescribe.get(i).toString());
@@ -107,7 +107,7 @@ public class SVGConsoleFrameVisitor implements Visitor {
 	}
 
 	@Override
-	public void draw() {
+	public void interprete() {
 		// TODO Auto-generated method stub
 		
 	}

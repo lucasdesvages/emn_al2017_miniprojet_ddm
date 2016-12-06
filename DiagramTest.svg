@@ -25,23 +25,23 @@
       ><text x="30" xml:space="preserve" y="210" style="font-style:italic; stroke:none;"
       >TestClassReader()</text
       ><text x="30" xml:space="preserve" y="230" style="stroke:none;"
-      >method3() : String</text
-      ><text x="30" xml:space="preserve" y="250" style="stroke:none;"
       >method2() : int</text
-      ><text x="30" xml:space="preserve" y="270" style="stroke:none;"
-      >getAttr1() : double</text
-      ><text x="30" xml:space="preserve" y="290" style="stroke:none;"
-      >getAttr2() : int</text
-      ><text x="30" xml:space="preserve" y="310" style="stroke:none;"
+      ><text x="30" xml:space="preserve" y="250" style="stroke:none;"
       >setAttr1(double) : void</text
-      ><text x="30" xml:space="preserve" y="330" style="stroke:none;"
-      >getAttr3() : String</text
-      ><text x="30" xml:space="preserve" y="350" style="stroke:none;"
-      >setAttr2(int) : void</text
-      ><text x="30" xml:space="preserve" y="370" style="stroke:none;"
+      ><text x="30" xml:space="preserve" y="270" style="stroke:none;"
       >method1() : void</text
-      ><text x="30" xml:space="preserve" y="390" style="stroke:none;"
+      ><text x="30" xml:space="preserve" y="290" style="stroke:none;"
+      >method3() : String</text
+      ><text x="30" xml:space="preserve" y="310" style="stroke:none;"
+      >getAttr2() : int</text
+      ><text x="30" xml:space="preserve" y="330" style="stroke:none;"
+      >getAttr1() : double</text
+      ><text x="30" xml:space="preserve" y="350" style="stroke:none;"
+      >getAttr3() : String</text
+      ><text x="30" xml:space="preserve" y="370" style="stroke:none;"
       >setAttr3(String) : void</text
+      ><text x="30" xml:space="preserve" y="390" style="stroke:none;"
+      >setAttr2(int) : void</text
       ><rect x="251" width="123" height="150" y="10" style="fill:none;"
       /><text x="263" xml:space="preserve" y="30" style="stroke:none;"
       >&lt;&lt;Java Interface&gt;&gt;</text
@@ -51,11 +51,11 @@
       >test</text
       ><line y2="90" style="fill:none;" x1="251" x2="374" y1="90"
       /><text x="271" xml:space="preserve" y="110" style="stroke:none;"
-      >method3() : String</text
-      ><text x="271" xml:space="preserve" y="130" style="stroke:none;"
       >method2() : int</text
-      ><text x="271" xml:space="preserve" y="150" style="stroke:none;"
+      ><text x="271" xml:space="preserve" y="130" style="stroke:none;"
       >method1() : void</text
+      ><text x="271" xml:space="preserve" y="150" style="stroke:none;"
+      >method3() : String</text
       ><rect x="394" width="123" height="150" y="10" style="fill:none;"
       /><text x="406" xml:space="preserve" y="30" style="stroke:none;"
       >&lt;&lt;Java Interface&gt;&gt;</text
@@ -65,11 +65,11 @@
       >test</text
       ><line y2="90" style="fill:none;" x1="394" x2="517" y1="90"
       /><text x="414" xml:space="preserve" y="110" style="stroke:none;"
-      >method3() : String</text
-      ><text x="414" xml:space="preserve" y="130" style="stroke:none;"
       >method2() : int</text
-      ><text x="414" xml:space="preserve" y="150" style="stroke:none;"
+      ><text x="414" xml:space="preserve" y="130" style="stroke:none;"
       >method1() : void</text
+      ><text x="414" xml:space="preserve" y="150" style="stroke:none;"
+      >method3() : String</text
       ><rect x="537" width="316" height="530" y="10" style="fill:none;"
       /><text x="658" xml:space="preserve" y="30" style="stroke:none;"
       >&lt;&lt;Java Class&gt;&gt;</text
@@ -104,21 +104,21 @@
       ><text x="557" xml:space="preserve" y="350" style="stroke:none;"
       >drawType(Diagram, int, int, SVGGraphics2D) : int[]</text
       ><text x="557" xml:space="preserve" y="370" style="stroke:none;"
-      >setLineThickness(int) : void</text
-      ><text x="557" xml:space="preserve" y="390" style="stroke:none;"
-      >setContourColor(int) : void</text
-      ><text x="557" xml:space="preserve" y="410" style="stroke:none;"
-      >setFontColor(int) : void</text
-      ><text x="557" xml:space="preserve" y="430" style="stroke:none;"
       >label(String, int, int) : void</text
-      ><text x="557" xml:space="preserve" y="450" style="stroke:none;"
-      >drawDiagram(Diagram, int, int, SVGGraphics2D) : void</text
-      ><text x="557" xml:space="preserve" y="470" style="stroke:none;"
-      >getHeight(Diagram) : int</text
-      ><text x="557" xml:space="preserve" y="490" style="stroke:none;"
+      ><text x="557" xml:space="preserve" y="390" style="stroke:none;"
       >getWidth(Type) : int</text
-      ><text x="557" xml:space="preserve" y="510" style="stroke:none;"
+      ><text x="557" xml:space="preserve" y="410" style="stroke:none;"
+      >setLineThickness(int) : void</text
+      ><text x="557" xml:space="preserve" y="430" style="stroke:none;"
       >setPointerShape(int) : void</text
+      ><text x="557" xml:space="preserve" y="450" style="stroke:none;"
+      >setContourColor(int) : void</text
+      ><text x="557" xml:space="preserve" y="470" style="stroke:none;"
+      >drawDiagram(Diagram, int, int, SVGGraphics2D) : void</text
+      ><text x="557" xml:space="preserve" y="490" style="stroke:none;"
+      >getHeight(Diagram) : int</text
+      ><text x="557" xml:space="preserve" y="510" style="stroke:none;"
+      >setFontColor(int) : void</text
     ></g
   ></g
 ></svg

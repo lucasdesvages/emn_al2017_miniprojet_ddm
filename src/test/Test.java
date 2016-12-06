@@ -20,6 +20,7 @@ public class Test {
 		d.add(SVGVisitor.class);
 		
 		SVGVisitor visitor = new SVGVisitor(d, "DiagramTest");
-		visitor.draw();
+		visitor.interprete();
+		
 	}
 }

@@ -40,9 +40,12 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 	private static int hMax = 0;
 	
 	//Default Font
-	Font defaultFont = new Font("default", Font.PLAIN, 12);
+	private Font defaultFont = new Font("default", Font.PLAIN, 12);
 	//Font metrics to get a text width
-	FontMetrics metrics;
+	private FontMetrics metrics;
+	
+	//Object SVGGraphics2D
+	SVGGraphics2D g2;
 	
 	
 	public SVGVisitor(Diagram diagram, String name) {
@@ -51,7 +54,7 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 	}
 
 	@Override
-	public void draw() {
+	public void interprete() {
 
 		// Get a DOMImplementation.
 		DOMImplementation domImpl = GenericDOMImplementation.getDOMImplementation();
@@ -68,7 +71,7 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 		// hauteur = nombre d'elements du type
 		//int hauteur = this.getHeight();		
 		
-		SVGGraphics2D g2 = new SVGGraphics2D(document);
+		g2 = new SVGGraphics2D(document);
 		metrics = g2.getFontMetrics();
 		
 		drawDiagram(this.getDiagram(), 10,10, g2);
@@ -193,6 +196,7 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 			}
 		}
 		else{
+			//Interface methods
 			for (int i = 0; i < d.getType().getMethods().length; i++) {
 				g2.drawString(d.getType().getMethods()[i],x + 20, y + 100 +20*i );
 			}
@@ -209,6 +213,7 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 
 	public void setFontColor(int color) {
 		// TODO Auto-generated method stub
+		
 
 	}
 
@@ -229,7 +234,9 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 
 	public void setContourColor(int color) {
 		// TODO Auto-generated method stub
-
+		
 	}
+	
+	
 
 }
