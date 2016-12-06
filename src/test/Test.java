@@ -3,6 +3,7 @@ package test;
 import visitor.AbstractVisitor;
 import visitor.ConsoleVisitor;
 import visitor.SVGVisitor;
+import visitor.Visitor;
 import diagram.Diagram;
 import diagram.DiagramComposite;
 import fabriques.DiagramFactory;
@@ -23,7 +24,7 @@ public class Test {
 		d.add(ConsoleVisitor.class);
 		d.add(DiagramComposite.class);
 		d.add(AbstractVisitor.class);
-		d.add(TypeBuilder.class);
+		d.add(Visitor.class);
 		d.add(TypeBuilder.class);
 		d.add(TypeBuilder.class);
 		d.add(TypeBuilder.class);

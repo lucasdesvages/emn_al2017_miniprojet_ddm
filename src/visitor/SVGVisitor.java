@@ -1,5 +1,6 @@
 package visitor;
 
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -23,6 +24,7 @@ import org.apache.batik.swing.JSVGScrollPane;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 
+import types.Interface;
 import types.Type;
 import types.TypeClass;
 import diagram.Diagram;
@@ -43,7 +45,6 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 	// Hauteur max calculée pendant le dessin
 	private static int hMax = 0;
 
-
 	// Hauteur max courante
 	private static int hMaxCourante = hMax;
 
@@ -51,9 +52,8 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 	private Font defaultFont = new Font("default", Font.PLAIN, 12);
 	// Font metrics to get a text width
 	private FontMetrics metrics;
-	
-	private SVGGraphics2D g2;
 
+	private SVGGraphics2D g2;
 
 	public SVGVisitor(Diagram diagram, String name) {
 		super(diagram);
@@ -64,8 +64,7 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 	public void interprete() {
 
 		// Get a DOMImplementation.
-		DOMImplementation domImpl = GenericDOMImplementation
-				.getDOMImplementation();
+		DOMImplementation domImpl = GenericDOMImplementation.getDOMImplementation();
 
 		// Create an instance of org.w3c.dom.Document.
 		Document document = domImpl.createDocument(name, "svg", null);
@@ -73,18 +72,18 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 		// Create an instance of SVGCanvas in order to display it in a JFrame.
 		JSVGCanvas SVGCanvas = new JSVGCanvas();
 		SVGCanvas.setSize(10000, 10000);
-		
-		//Create the svg file
+
+		// Create the svg file
 		File image = null;
-		
+
 		g2 = new SVGGraphics2D(document);
 
 		metrics = g2.getFontMetrics();
-		
+
 		HashMap<Class<?>, int[]> typePos = new HashMap<Class<?>, int[]>();
-		drawDiagram(this.getDiagram(), margeHor, margeVer, g2,typePos);
+		drawDiagram(this.getDiagram(), margeHor, margeVer, g2, typePos);
 		drawRelations(typePos);
-		
+
 		// Create the .svg file and write the xml code.
 		image = new File(this.name + ".svg");
 
@@ -93,7 +92,7 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 		try {
 			out = new OutputStreamWriter(new FileOutputStream(image), "UTF-8");
 			g2.stream(out, useCSS);
-			//g2.stream(new OutputStreamWriter(System.out, "UTF-8"), useCSS);
+			// g2.stream(new OutputStreamWriter(System.out, "UTF-8"), useCSS);
 			SVGCanvas.setURI(image.toString());
 
 		} catch (Exception e1) {
@@ -104,39 +103,41 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 		JPanel panel = new JPanel();
 		JSVGScrollPane scroll = new JSVGScrollPane(SVGCanvas);
 		panel.setLayout(new BorderLayout());
-		panel.add(scroll,BorderLayout.CENTER);
+		panel.add(scroll, BorderLayout.CENTER);
 		panel.setSize(SVGCanvas.getSize());
 		jframe.setSize(SVGCanvas.getSize());
-		jframe.add(panel);	
+		jframe.add(panel);
 		jframe.setLocationRelativeTo(null);
 		jframe.setVisible(true);
 		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+
 	}
 
 	private void drawDiagram(Diagram d, int x, int y, SVGGraphics2D g, HashMap<Class<?>, int[]> typePos) {
 		largeurCompt++;
 		if (!d.isEmpty()) {
+
 			
-			typePos.put(d.getType().getC(),new int[]{x,y});
-			
+
 			if (largeurCompt < largeurMax) {
 				int[] lh = drawType(d, x, y, g);
 				if (lh[1] > hMaxCourante) {
 					hMaxCourante = lh[1];
 				}
+				typePos.put(d.getType().getC(), new int[] { x, y, lh[0], lh[1] });
 				drawDiagram(d.getDiagram(), x + margeHor + lh[0], y, g, typePos);
 			} else {
 				hMax += hMaxCourante + margeVer;
 				int[] lh = drawType(d, margeHor, margeVer + hMax, g);
 				hMaxCourante = lh[1];
 				largeurCompt = 1;
+				typePos.put(d.getType().getC(), new int[] { x, y, lh[1] });
 				drawDiagram(d.getDiagram(), 2 * margeHor + lh[0], y + hMax, g, typePos);
 			}
 			
-		}		
-	}
 
+		}
+	}
 
 	/**
 	 * Calculate the width of the type t from its longest string in its
@@ -186,88 +187,83 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 		g2.draw(new Rectangle(x, y, largeur, hauteur));
 
 		// Type type
-		g2.drawString(
-				d.getType().getType(),
-				x
-						+ ((largeur - metrics
-								.stringWidth(d.getType().getType())) / 2),
-				y + 20);
+		g2.drawString(d.getType().getType(), x + ((largeur - metrics.stringWidth(d.getType().getType())) / 2), y + 20);
 
 		// Type name
 		g2.setFont(new Font("default", Font.BOLD, 12));
-		g2.drawString(
-				d.getType().getName(),
-				x
-						+ ((largeur - metrics
-								.stringWidth(d.getType().getName())) / 2),
-				y + 40);
+		g2.drawString(d.getType().getName(), x + ((largeur - metrics.stringWidth(d.getType().getName())) / 2), y + 40);
 
 		// Type package
 
 		g2.setFont(defaultFont);
-		g2.drawString(
-				d.getType().getPackage(),
-				x
-						+ ((largeur - metrics.stringWidth(d.getType()
-								.getPackage())) / 2), y + 60);
+		g2.drawString(d.getType().getPackage(), x + ((largeur - metrics.stringWidth(d.getType().getPackage())) / 2),
+				y + 60);
 		g2.drawLine(x, y + 80, x + largeur, y + 80);
 
 		if (!d.getType().getC().isInterface()) {
 
 			// Class fields
 			for (int i = 0; i < ((TypeClass) d.getType()).getFields().length; i++) {
-				g2.drawString(((TypeClass) d.getType()).getFields()[i], x + 20,
-						y + 100 + 20 * i);
+				g2.drawString(((TypeClass) d.getType()).getFields()[i], x + 20, y + 100 + 20 * i);
 			}
-			g2.drawLine(x, y + 100 + 20
-					* ((TypeClass) d.getType()).getFields().length,
-					x + largeur,
+			g2.drawLine(x, y + 100 + 20 * ((TypeClass) d.getType()).getFields().length, x + largeur,
 					y + 100 + 20 * ((TypeClass) d.getType()).getFields().length);
 			// Class constructors
 			g2.setFont(new Font("default", Font.ITALIC, 12));
 			for (int i = 0; i < ((TypeClass) d.getType()).getConstructors().length; i++) {
-				g2.drawString(((TypeClass) d.getType()).getConstructors()[i],
-						x + 20,
-						y + 100 + 20
-								* ((TypeClass) d.getType()).getFields().length
-								+ 20 + 20 * i);
+				g2.drawString(((TypeClass) d.getType()).getConstructors()[i], x + 20,
+						y + 100 + 20 * ((TypeClass) d.getType()).getFields().length + 20 + 20 * i);
 			}
 			g2.setFont(defaultFont);
 			// Class methods
 			for (int i = 0; i < d.getType().getMethods().length; i++) {
-				g2.drawString(d.getType().getMethods()[i], x + 20, y + 100 + 20
-						* ((TypeClass) d.getType()).getFields().length + 20
-						+ 20
-						* ((TypeClass) d.getType()).getConstructors().length
-						+ 20 * i);
+				g2.drawString(d.getType().getMethods()[i], x + 20,
+						y + 100 + 20 * ((TypeClass) d.getType()).getFields().length + 20
+								+ 20 * ((TypeClass) d.getType()).getConstructors().length + 20 * i);
 			}
-		}
-		else{
-			//Interface methods
+		} else {
+			// Interface methods
 			for (int i = 0; i < d.getType().getMethods().length; i++) {
-				g2.drawString(d.getType().getMethods()[i], x + 20, y + 100 + 20
-						* i);
+				g2.drawString(d.getType().getMethods()[i], x + 20, y + 100 + 20 * i);
 			}
 		}
 		return res;
 	}
-	
+
 	private void drawRelations(HashMap<Class<?>, int[]> typePos) {
-		for (Entry<Class<?>, int[]> e : typePos.entrySet()){
-			
-			if(e.getKey().getSuperclass()!=java.lang.Object.class && typePos.containsKey(e.getKey().getSuperclass())){
-				g2.drawLine(e.getValue()[0], 
-						e.getValue()[1],
-						typePos.get(e.getKey().getSuperclass())[0],
-						typePos.get(e.getKey().getSuperclass())[1]);
+		for (Entry<Class<?>, int[]> e : typePos.entrySet()) {
+			Class<?> superClasse = e.getKey().getSuperclass();
+			if (superClasse != java.lang.Object.class && typePos.containsKey(superClasse)) {
+				if (e.getValue()[1]==typePos.get(superClasse)[1]){
+					g2.drawLine(e.getValue()[0]+e.getValue()[2], e.getValue()[1]+e.getValue()[3], typePos.get(superClasse)[0], typePos.get(superClasse)[1]);
+				}
+				else {
+					g2.drawLine(e.getValue()[0], e.getValue()[1], typePos.get(superClasse)[0], typePos.get(superClasse)[1]);
+				}
 			}
+			
+			float dash1[] = { 10.0f };
+			BasicStroke dashed = new BasicStroke(2.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f,
+					dash1, 0.0f);
+			g2.setStroke(dashed);
+			
+			for (int i = 0; i < e.getKey().getInterfaces().length; i++) {
+				Class<?> interfaceBis = e.getKey().getInterfaces()[i];
+				if (interfaceBis != java.lang.Object.class && typePos.containsKey(interfaceBis)) {
+					if (e.getValue()[1]==typePos.get(interfaceBis)[1]){
+						g2.drawLine(e.getValue()[0]+e.getValue()[2], e.getValue()[1]+e.getValue()[3], typePos.get(interfaceBis)[0],
+								typePos.get(interfaceBis)[1]);
+					}
+					else {
+					g2.drawLine(e.getValue()[0], e.getValue()[1], typePos.get(interfaceBis)[0],
+							typePos.get(interfaceBis)[1]);
+					}
+				}
+			}
+			BasicStroke normal = new BasicStroke();
+			g2.setStroke(normal);
 		}
 	}
-	
-	
-	
-	
-	
 
 	public void label(String text, int x, int y) {
 		// TODO Auto-generated method stub
@@ -276,7 +272,6 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 
 	public void setFontColor(int color) {
 		// TODO Auto-generated method stub
-		
 
 	}
 
@@ -297,11 +292,7 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 
 	public void setContourColor(int color) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
-	
-	
-	
 
 }
