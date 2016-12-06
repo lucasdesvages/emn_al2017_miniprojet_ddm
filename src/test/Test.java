@@ -4,6 +4,9 @@ import visitor.AbstractVisitor;
 import visitor.ConsoleVisitor;
 import visitor.SVGVisitor;
 import visitor.Visitor;
+
+import java.awt.Color;
+
 import diagram.Diagram;
 import diagram.DiagramComposite;
 import diagram.Label;
@@ -21,7 +24,7 @@ public class Test {
 		Diagram dBis = fab.createDiagram(TestClassReader.class, vide);
 		dBis.add(Label.class);
 		
-		d.insert(dBis);
+		//d.insert(dBis);
 		
 		d.add(TestInterface.class);
 		d.add(TestInterface.class);
@@ -38,6 +41,10 @@ public class Test {
 		//cv.interprete();
 
 		SVGVisitor visitor = new SVGVisitor(d, "DiagramTest");
+//		visitor.setBackgroundColor(Color.RED);
+//		visitor.setFontColor(Color.BLUE);
+//		visitor.setContourColor(Color.GREEN);
+//		visitor.setLineThickness(5);
 		visitor.interprete();
 		
 	}

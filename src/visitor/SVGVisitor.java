@@ -25,7 +25,6 @@ import org.apache.batik.swing.JSVGScrollPane;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 
-import types.Interface;
 import types.Type;
 import types.TypeClass;
 import diagram.Diagram;
@@ -51,10 +50,19 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 
 	// Police par defaut
 	private Font defaultFont = new Font("default", Font.PLAIN, 12);
+	// Couleur de police
+	private Color fontColor = Color.BLACK;
 	// Metriques de police (utilisees pour obtenir la taille d'une string)
 	private FontMetrics metrics;
+	
+	// Couleur de fond
+	private Color backgroundColor = new Color(255,249,200,255); 
+	// Couleur de contour
+	private Color contourColor = Color.BLACK;
+	// Epaisseur des fleches
+	private BasicStroke stroke = new BasicStroke(1.0f);
 
-	//Objet de dessin
+	// Objet de dessin
 	private SVGGraphics2D g2;
 
 	/**
@@ -194,14 +202,20 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 
 	private int[] drawType(Diagram d, int x, int y) {
 
-		g2.setPaint(Color.BLACK);
+		
 		int largeur = this.getWidth(d.getType());
-
 		int hauteur = this.getHeight(d);
 		int[] res = { largeur, hauteur };
-
+		
+		
+		g2.setPaint(backgroundColor);
+		g2.fillRect(x, y, largeur, hauteur);
+		
+		g2.setStroke(stroke);
+		g2.setPaint(contourColor);
 		g2.draw(new Rectangle(x, y, largeur, hauteur));
-
+		
+		g2.setPaint(fontColor);
 		// Type type
 		g2.drawString(d.getType().getType(), x + ((largeur - metrics.stringWidth(d.getType().getType())) / 2), y + 20);
 
@@ -214,17 +228,22 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 		g2.setFont(defaultFont);
 		g2.drawString(d.getType().getPackage(), x + ((largeur - metrics.stringWidth(d.getType().getPackage())) / 2),
 				y + 60);
+		g2.setPaint(contourColor);
 		g2.drawLine(x, y + 80, x + largeur, y + 80);
-
+		
+		
 		if (!d.getType().getC().isInterface()) {
 
 			// Class fields
 			for (int i = 0; i < ((TypeClass) d.getType()).getFields().length; i++) {
+				g2.setPaint(fontColor);
 				g2.drawString(((TypeClass) d.getType()).getFields()[i], x + 20, y + 100 + 20 * i);
 			}
+			g2.setPaint(contourColor);
 			g2.drawLine(x, y + 100 + 20 * ((TypeClass) d.getType()).getFields().length, x + largeur,
 					y + 100 + 20 * ((TypeClass) d.getType()).getFields().length);
 			// Class constructors
+			g2.setPaint(fontColor);
 			g2.setFont(new Font("default", Font.ITALIC, 12));
 			for (int i = 0; i < ((TypeClass) d.getType()).getConstructors().length; i++) {
 				g2.drawString(((TypeClass) d.getType()).getConstructors()[i], x + 20,
@@ -243,6 +262,7 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 				g2.drawString(d.getType().getMethods()[i], x + 20, y + 100 + 20 * i);
 			}
 		}
+		g2.setPaint(Color.BLACK);
 		return res;
 	}
 
@@ -297,13 +317,9 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 		}
 	}
 
-	public void label(String text, int x, int y) {
-		// TODO Auto-generated method stub
 
-	}
-
-	public void setFontColor(int color) {
-		// TODO Auto-generated method stub
+	public void setFontColor(Color color) {
+		fontColor = color;
 
 	}
 
@@ -312,18 +328,17 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 
 	}
 
-	public void setLineThickness(int thickness) {
-		// TODO Auto-generated method stub
+	public void setLineThickness(float thickness) {
+		stroke = new BasicStroke(thickness);
 
 	}
 
-	public void setBackgroundColor(int color) {
-		// TODO Auto-generated method stub
-
+	public void setBackgroundColor(Color color) {
+		backgroundColor = color;
 	}
 
-	public void setContourColor(int color) {
-		// TODO Auto-generated method stub
+	public void setContourColor(Color color) {
+		contourColor = color;
 
 	}
 
