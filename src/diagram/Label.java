@@ -36,8 +36,4 @@ public class Label {
 		this.y = y;
 	}
 
-	public Label() {
-		// TODO Auto-generated constructor stub
-	}
-
 }

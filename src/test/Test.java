@@ -5,6 +5,7 @@ import visitor.ConsoleVisitor;
 import visitor.SVGVisitor;
 import diagram.Diagram;
 import diagram.DiagramComposite;
+import diagram.Label;
 import fabriques.DiagramFactory;
 import fabriques.TypeBuilder;
 
@@ -16,8 +17,11 @@ public class Test {
 
 		Diagram vide = fab.createEmptyDiagram();
 		Diagram d = fab.createDiagram(TestClassReader.class, vide);
+		Diagram dBis = fab.createDiagram(TestClassReader.class, vide);
+		dBis.add(Label.class);
 		
-		d.label("Mon label", 50, 50);
+		d.insert(dBis);
+		
 		d.add(TestInterface.class);
 		d.add(TestInterface.class);
 		d.add(SVGVisitor.class);
