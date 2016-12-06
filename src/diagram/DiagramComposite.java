@@ -2,7 +2,6 @@ package diagram;
 
 import java.util.ArrayList;
 
-
 public class DiagramComposite extends AbstractDiagram implements Diagram {
 
 	public DiagramComposite(Class<?> c, Diagram d) {

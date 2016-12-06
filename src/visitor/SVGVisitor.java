@@ -18,7 +18,6 @@ import org.apache.batik.swing.JSVGCanvas;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 
-import types.Classe;
 import types.Type;
 import types.TypeClass;
 import diagram.Diagram;
@@ -26,28 +25,29 @@ import diagram.Diagram;
 public class SVGVisitor extends AbstractVisitor implements Visitor {
 
 	private String name;
-	
-	//Marge horizontale
+
+	// Marge horizontale
 	public static int margeHor = 20;
-	//Marge verticale
+	// Marge verticale
 	public static int margeVer = 20;
-	
-	//Nombre max de types sur une ligne
+
+	// Nombre max de types sur une ligne
 	public static int largeurMax = 6;
-	//Nombre courant de types sur une ligne
+	// Nombre courant de types sur une ligne
 	private static int largeurCompt = 0;
-	//Hauteur max calculée pendant le dessin
+	// Hauteur max calculée pendant le dessin
 	private static int hMax = 0;
-	
-	//Default Font
+
+
+	// Hauteur max courante
+	private static int hMaxCourante = hMax;
+
+	// Default Font
 	private Font defaultFont = new Font("default", Font.PLAIN, 12);
-	//Font metrics to get a text width
+	// Font metrics to get a text width
 	private FontMetrics metrics;
-	
-	//Object SVGGraphics2D
-	SVGGraphics2D g2;
-	
-	
+
+
 	public SVGVisitor(Diagram diagram, String name) {
 		super(diagram);
 		this.name = name;
@@ -57,12 +57,16 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 	public void interprete() {
 
 		// Get a DOMImplementation.
-		DOMImplementation domImpl = GenericDOMImplementation.getDOMImplementation();
+		DOMImplementation domImpl = GenericDOMImplementation
+				.getDOMImplementation();
+
 		// Create an instance of org.w3c.dom.Document.
 		Document document = domImpl.createDocument(name, "svg", null);
+
 		// Create an instance of SVGCanvas in order to display it in a JFrame.
 		JSVGCanvas SVGCanvas = new JSVGCanvas();
 		SVGCanvas.setSize(800, 600);
+
 		
 		File image = null;
 
@@ -71,11 +75,12 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 		// hauteur = nombre d'elements du type
 		//int hauteur = this.getHeight();		
 		
-		g2 = new SVGGraphics2D(document);
-		metrics = g2.getFontMetrics();
 		
-		drawDiagram(this.getDiagram(), 10,10, g2);
-				
+		SVGGraphics2D g2 = new SVGGraphics2D(document);
+
+		metrics = g2.getFontMetrics();
+
+		drawDiagram(this.getDiagram(), margeHor, margeVer, g2);
 
 		// Create the .svg file and write the xml code.
 		image = new File(this.name + ".svg");
@@ -85,6 +90,7 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 		try {
 			out = new OutputStreamWriter(new FileOutputStream(image), "UTF-8");
 			g2.stream(out, useCSS);
+			g2.stream(new OutputStreamWriter(System.out, "UTF-8"), useCSS);
 			SVGCanvas.setURI(image.toString());
 
 		} catch (Exception e1) {
@@ -99,33 +105,35 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	}
-	
 
 	private void drawDiagram(Diagram d, int x, int y, SVGGraphics2D g) {
-		if(!d.isEmpty()){
-			if(largeurCompt<largeurMax){
-				int[] lh = drawType(d,x,y,g);
-				if(lh[1]>hMax){
-					hMax=lh[1];
-				}
-				drawDiagram(d.getDiagram(),x+margeHor+ lh[0] ,y ,g);
-			}
-			else{
-				largeurCompt=0;
+		largeurCompt++;
+		if (!d.isEmpty()) {
+			if (largeurCompt < largeurMax) {
 				int[] lh = drawType(d, x, y, g);
-				drawDiagram(d.getDiagram(),x+margeHor+ lh[0] ,y+lh[1]+margeVer, g);
-				hMax=0;
+				if (lh[1] > hMaxCourante) {
+					hMaxCourante = lh[1];
+				}
+				drawDiagram(d.getDiagram(), x + margeHor + lh[0], y, g);
+			} else {
+				hMax += hMaxCourante + margeVer;
+				int[] lh = drawType(d, margeHor, margeVer + hMax, g);
+				hMaxCourante = lh[1];
+				largeurCompt = 1;
+				drawDiagram(d.getDiagram(), 2 * margeHor + lh[0], y + hMax, g);
 			}
-		}			
+		}
 	}
 
 	/**
-	 * Calculate the width of the type t from its longest string in its description
+	 * Calculate the width of the type t from its longest string in its
+	 * description
+	 * 
 	 * @return int width
 	 */
 	public int getWidth(Type t) {
 		String longest = "";
-		
+
 		ArrayList<String[]> description = t.getDescription();
 		for (int i = 0; i != description.size(); i++) {
 			for (int j = 0; j != description.get(i).length; j++) {
@@ -134,76 +142,101 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 				}
 			}
 		}
-		return (int)(metrics.stringWidth(longest)+margeHor);
+
+		return (int) (metrics.stringWidth(longest) + margeHor);
 	}
-	
+
 	/**
-	 * Calculate the height of the type from the total number of elements in its description.
-	 * @param 
+	 * 
+	 * Calculate the height of the type from the total number of elements in its
+	 * description.
+	 * 
+	 * @param
 	 * @return int height
 	 */
 	public int getHeight(Diagram d) {
-		int nbLig =0;
-		for(int i =0; i< d.getDescription().size(); i++){
-			nbLig+= d.getDescription().get(i).length;
+		int nbLig = 0;
+		for (int i = 0; i < d.getDescription().size(); i++) {
+			nbLig += d.getDescription().get(i).length;
 		}
-		return  (30 + 20 * (nbLig));
+		return (30 + 20 * (nbLig));
 	}
-	
-	public int[] drawType(Diagram d, int x, int y, SVGGraphics2D g2){
-				
+
+	private int[] drawType(Diagram d, int x, int y, SVGGraphics2D g2) {
+
 		g2.setPaint(Color.BLACK);
 		int largeur = this.getWidth(d.getType());
+
 		int hauteur = this.getHeight(d);
-		int[] res = {largeur, hauteur};
-		
+		int[] res = { largeur, hauteur };
+
 		g2.draw(new Rectangle(x, y, largeur, hauteur));
-		//Type type
-		g2.drawString(d.getType().getType(), x+((largeur + 10 - d.getType().getType().length() * 6) / 2),
+
+		// Type type
+		g2.drawString(
+				d.getType().getType(),
+				x
+						+ ((largeur - metrics
+								.stringWidth(d.getType().getType())) / 2),
 				y + 20);
-		//Type name
+
+		// Type name
 		g2.setFont(new Font("default", Font.BOLD, 12));
-		g2.drawString(d.getType().getName(), x+ ((largeur + 10 - d.getType().getName().length() * 6) / 2),
+		g2.drawString(
+				d.getType().getName(),
+				x
+						+ ((largeur - metrics
+								.stringWidth(d.getType().getName())) / 2),
 				y + 40);
-		//Type package
-		//g2.setFont(new Font("default", Font.PLAIN, 12));
+
+		// Type package
+
 		g2.setFont(defaultFont);
-		g2.drawString(d.getType().getPackage(),
-				x+ ((largeur + 10 - d.getType().getPackage().length() * 6) / 2), y +60);
-		g2.drawLine(x , y +80, x + largeur,y + 80);
-		
-		if(!d.getType().getC().isInterface()){
-			//Class fields
+		g2.drawString(
+				d.getType().getPackage(),
+				x
+						+ ((largeur - metrics.stringWidth(d.getType()
+								.getPackage())) / 2), y + 60);
+		g2.drawLine(x, y + 80, x + largeur, y + 80);
+
+		if (!d.getType().getC().isInterface()) {
+
+			// Class fields
 			for (int i = 0; i < ((TypeClass) d.getType()).getFields().length; i++) {
-				g2.drawString(((TypeClass) d.getType()).getFields()[i], x + 20, y + 100 + 20 * i);
+				g2.drawString(((TypeClass) d.getType()).getFields()[i], x + 20,
+						y + 100 + 20 * i);
 			}
-			g2.drawLine(x, y + 100 + 20 * ((TypeClass) d.getType()).getFields().length, x +largeur, y  +
-					100 + 20 * ((TypeClass) d.getType()).getFields().length);
-			//Class constructors
+			g2.drawLine(x, y + 100 + 20
+					* ((TypeClass) d.getType()).getFields().length,
+					x + largeur,
+					y + 100 + 20 * ((TypeClass) d.getType()).getFields().length);
+			// Class constructors
 			g2.setFont(new Font("default", Font.ITALIC, 12));
 			for (int i = 0; i < ((TypeClass) d.getType()).getConstructors().length; i++) {
-				g2.drawString(((TypeClass) d.getType()).getConstructors()[i], x + 20,
-						y + 100 + 20 * ((TypeClass) d.getType()).getFields().length + 20 + 20 * i);
+				g2.drawString(((TypeClass) d.getType()).getConstructors()[i],
+						x + 20,
+						y + 100 + 20
+								* ((TypeClass) d.getType()).getFields().length
+								+ 20 + 20 * i);
 			}
 			g2.setFont(defaultFont);
-			//Class methods
+			// Class methods
 			for (int i = 0; i < d.getType().getMethods().length; i++) {
-				g2.drawString(
-						d.getType().getMethods()[i],
-						x + 20,
-						y + 100 + 20 * ((TypeClass) d.getType()).getFields().length + 20 + 20
-								* ((TypeClass) d.getType()).getConstructors().length + 20 * i);
+				g2.drawString(d.getType().getMethods()[i], x + 20, y + 100 + 20
+						* ((TypeClass) d.getType()).getFields().length + 20
+						+ 20
+						* ((TypeClass) d.getType()).getConstructors().length
+						+ 20 * i);
 			}
 		}
 		else{
 			//Interface methods
 			for (int i = 0; i < d.getType().getMethods().length; i++) {
-				g2.drawString(d.getType().getMethods()[i],x + 20, y + 100 +20*i );
+				g2.drawString(d.getType().getMethods()[i], x + 20, y + 100 + 20
+						* i);
 			}
 		}
-		
 		return res;
-		
 	}
 
 	public void label(String text, int x, int y) {
