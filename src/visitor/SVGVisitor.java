@@ -10,6 +10,8 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -49,6 +51,8 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 	private Font defaultFont = new Font("default", Font.PLAIN, 12);
 	// Font metrics to get a text width
 	private FontMetrics metrics;
+	
+	private SVGGraphics2D g2;
 
 
 	public SVGVisitor(Diagram diagram, String name) {
@@ -68,17 +72,19 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 
 		// Create an instance of SVGCanvas in order to display it in a JFrame.
 		JSVGCanvas SVGCanvas = new JSVGCanvas();
-		SVGCanvas.setSize(1280, 600);
+		SVGCanvas.setSize(10000, 10000);
 		
 		//Create the svg file
 		File image = null;
 		
-		SVGGraphics2D g2 = new SVGGraphics2D(document);
+		g2 = new SVGGraphics2D(document);
 
 		metrics = g2.getFontMetrics();
-
-		drawDiagram(this.getDiagram(), margeHor, margeVer, g2);
-
+		
+		HashMap<Class<?>, int[]> typePos = new HashMap<Class<?>, int[]>();
+		drawDiagram(this.getDiagram(), margeHor, margeVer, g2,typePos);
+		drawRelations(typePos);
+		
 		// Create the .svg file and write the xml code.
 		image = new File(this.name + ".svg");
 
@@ -87,7 +93,7 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 		try {
 			out = new OutputStreamWriter(new FileOutputStream(image), "UTF-8");
 			g2.stream(out, useCSS);
-			g2.stream(new OutputStreamWriter(System.out, "UTF-8"), useCSS);
+			//g2.stream(new OutputStreamWriter(System.out, "UTF-8"), useCSS);
 			SVGCanvas.setURI(image.toString());
 
 		} catch (Exception e1) {
@@ -108,24 +114,29 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 		
 	}
 
-	private void drawDiagram(Diagram d, int x, int y, SVGGraphics2D g) {
+	private void drawDiagram(Diagram d, int x, int y, SVGGraphics2D g, HashMap<Class<?>, int[]> typePos) {
 		largeurCompt++;
 		if (!d.isEmpty()) {
+			
+			typePos.put(d.getType().getC(),new int[]{x,y});
+			
 			if (largeurCompt < largeurMax) {
 				int[] lh = drawType(d, x, y, g);
 				if (lh[1] > hMaxCourante) {
 					hMaxCourante = lh[1];
 				}
-				drawDiagram(d.getDiagram(), x + margeHor + lh[0], y, g);
+				drawDiagram(d.getDiagram(), x + margeHor + lh[0], y, g, typePos);
 			} else {
 				hMax += hMaxCourante + margeVer;
 				int[] lh = drawType(d, margeHor, margeVer + hMax, g);
 				hMaxCourante = lh[1];
 				largeurCompt = 1;
-				drawDiagram(d.getDiagram(), 2 * margeHor + lh[0], y + hMax, g);
+				drawDiagram(d.getDiagram(), 2 * margeHor + lh[0], y + hMax, g, typePos);
 			}
-		}
+			
+		}		
 	}
+
 
 	/**
 	 * Calculate the width of the type t from its longest string in its
@@ -240,6 +251,23 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 		}
 		return res;
 	}
+	
+	private void drawRelations(HashMap<Class<?>, int[]> typePos) {
+		for (Entry<Class<?>, int[]> e : typePos.entrySet()){
+			
+			if(e.getKey().getSuperclass()!=java.lang.Object.class && typePos.containsKey(e.getKey().getSuperclass())){
+				g2.drawLine(e.getValue()[0], 
+						e.getValue()[1],
+						typePos.get(e.getKey().getSuperclass())[0],
+						typePos.get(e.getKey().getSuperclass())[1]);
+			}
+		}
+	}
+	
+	
+	
+	
+	
 
 	public void label(String text, int x, int y) {
 		// TODO Auto-generated method stub
@@ -271,6 +299,8 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	
 	
 	
 

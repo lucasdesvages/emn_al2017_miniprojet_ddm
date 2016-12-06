@@ -76,4 +76,8 @@ public class Classe extends Interface implements TypeClass {
 
 		return res;
 	}
+	
+	public Class<?>[] getImplementedInterfaces(){
+		return getC().getInterfaces();
+	}
 }
