@@ -9,7 +9,11 @@ public interface DiagramServices {
 	ArrayList<String[]> getDescription();
 
 	void insert(Diagram d);
-	
+
 	void label(String text, int x, int y);
+
+	boolean contains(Diagram d);
+
+	boolean equals(Diagram d);
 
 }

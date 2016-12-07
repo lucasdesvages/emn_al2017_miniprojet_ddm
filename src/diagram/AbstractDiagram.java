@@ -10,7 +10,7 @@ public abstract class AbstractDiagram implements Diagram {
 	private Diagram diagram;
 	private Type type;
 	private ArrayList<Label> labels;
-	
+
 	private boolean toDescribe;
 
 	public AbstractDiagram(Class<?> c, Diagram d) {
@@ -59,6 +59,27 @@ public abstract class AbstractDiagram implements Diagram {
 	}
 
 	@Override
+	public ArrayList<Label> getLabels() {
+		return labels;
+	}
+
+	@Override
+	public boolean contains(Diagram d) {
+		if (this.equals(d)) {
+			return true;
+		} else if (this.getDiagram().isEmpty()) {
+			return false;
+		} else {
+			return getDiagram().contains(d);
+		}
+	}
+
+	@Override
+	public boolean equals(Diagram d) {
+		return getType().equals(d.getType());
+	}
+
+	@Override
 	abstract public boolean isEmpty();
 
 	@Override
@@ -75,10 +96,5 @@ public abstract class AbstractDiagram implements Diagram {
 
 	@Override
 	abstract public ArrayList<String[]> getDescription();
-	
-	@Override
-	public ArrayList<Label> getLabels() {
-		return labels;
-	}
 
 }

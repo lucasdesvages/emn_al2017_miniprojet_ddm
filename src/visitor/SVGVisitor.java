@@ -39,7 +39,7 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 	public static int margeVer = 20;
 
 	// Nombre max de types sur une ligne
-	public static int largeurMax = 9;
+	public static int largeurMax = 5;
 
 	// Nombre courant de types sur une ligne
 	private static int largeurCompt = 0;
@@ -149,7 +149,7 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 		largeurCompt++;
 		if (!d.isEmpty()) {
 
-			if (largeurCompt < largeurMax) {
+			if (largeurCompt <= largeurMax) {
 				int[] lh = drawType(d, x, y);
 				if (lh[1] > hMaxCourante) {
 					hMaxCourante = lh[1];
@@ -165,7 +165,8 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 				int[] lh = drawType(d, margeHor, margeVer + hMax);
 				hMaxCourante = lh[1];
 				largeurCompt = 1;
-				typePos.put(d.getType().getC(), new int[] { x, y, lh[1] });
+				typePos.put(d.getType().getC(), new int[] { margeHor,
+						margeVer + hMax, lh[0], lh[1] });
 				drawDiagram(d.getDiagram(), 2 * margeHor + lh[0], y + hMax,
 						typePos);
 				drawLabels(d, x, y);
@@ -429,7 +430,7 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 	}
 
 	public void setPointerShape(int shape) {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method
 
 	}
 

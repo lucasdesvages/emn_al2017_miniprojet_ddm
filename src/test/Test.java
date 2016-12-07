@@ -22,7 +22,7 @@ public class Test {
 		Diagram dBis = fab.createDiagram(TestClassReader.class, vide);
 		dBis.add(Label.class);
 		
-		//d.insert(dBis);
+		d.insert(dBis);
 		
 		d.add(TestInterface.class);
 		d.add(TestInterface.class);
@@ -35,8 +35,8 @@ public class Test {
 		d.add(TypeBuilder.class);
 		d.add(TypeBuilder.class);
 
-		//ConsoleVisitor cv = new ConsoleVisitor(d);
-		//cv.interprete();
+		ConsoleVisitor cv = new ConsoleVisitor(d);
+		cv.interprete();
 
 		SVGVisitor visitor = new SVGVisitor(d, "DiagramTest");
 		visitor.interprete();
