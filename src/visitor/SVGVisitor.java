@@ -372,16 +372,10 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 			Class<?> superClasse = e.getKey().getSuperclass();
 			if (superClasse != java.lang.Object.class
 					&& typePos.containsKey(superClasse)) {
-				if (e.getValue()[1] == typePos.get(superClasse)[1]) { // les
-																		// deux
-																		// types
-																		// sont
-																		// sur
-																		// la
-																		// même
-																		// ligne
+				// les deux types sont sur la même ligne
+				if (e.getValue()[1] == typePos.get(superClasse)[1]) {
 					g2.drawLine(e.getValue()[0] + e.getValue()[2],
-							e.getValue()[1] + e.getValue()[3] / 2,
+							e.getValue()[1] + e.getValue()[3],
 							typePos.get(superClasse)[0],
 							typePos.get(superClasse)[1]);
 					drawArrow(e.getValue()[0] + e.getValue()[2],

@@ -31,8 +31,6 @@ public class Test {
 		d.add(AbstractVisitor.class);
 		d.add(Visitor.class);
 		d.add(TypeBuilder.class);
-		d.add(TypeBuilder.class);
-		d.add(TypeBuilder.class);
 
 		ConsoleVisitor cv = new ConsoleVisitor(d);
 		cv.interprete();
