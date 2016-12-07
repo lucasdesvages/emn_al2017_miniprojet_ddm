@@ -32,9 +32,11 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 	public static int margeVer = 20;
 
 	// Nombre max de types sur une ligne
-	public static int largeurMax = 6;
+	public static int largeurMax = 9;
+
 	// Nombre courant de types sur une ligne
 	private static int largeurCompt = 0;
+
 	// Hauteur max calculée pendant le dessin
 	private static int hMax = 0;
 
@@ -150,6 +152,14 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 		return (30 + 20 * (nbLig));
 	}
 
+	/**
+	 * 
+	 * @param d
+	 * @param x
+	 * @param y
+	 * @param g2
+	 * @return
+	 */
 	private int[] drawType(Diagram d, int x, int y, SVGGraphics2D g2) {
 
 		g2.setPaint(Color.BLACK);
@@ -178,7 +188,6 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 				y + 40);
 
 		// Type package
-
 		g2.setFont(defaultFont);
 		g2.drawString(
 				d.getType().getPackage(),
@@ -198,6 +207,7 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 					* ((TypeClass) d.getType()).getFields().length,
 					x + largeur,
 					y + 100 + 20 * ((TypeClass) d.getType()).getFields().length);
+
 			// Class constructors
 			g2.setFont(new Font("default", Font.ITALIC, 12));
 			for (int i = 0; i < ((TypeClass) d.getType()).getConstructors().length; i++) {
@@ -208,6 +218,7 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 								+ 20 + 20 * i);
 			}
 			g2.setFont(defaultFont);
+
 			// Class methods
 			for (int i = 0; i < d.getType().getMethods().length; i++) {
 				g2.drawString(d.getType().getMethods()[i], x + 20, y + 100 + 20
