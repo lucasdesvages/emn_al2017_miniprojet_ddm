@@ -1,5 +1,6 @@
 package visitor;
 
+
 import java.util.ArrayList;
 
 import diagram.Diagram;
@@ -11,8 +12,10 @@ public class ConsoleVisitor extends AbstractVisitor implements Visitor {
 	}
 
 	@Override
-	public void draw() {
+
+	public void interprete() {
 		drawDiagram(getDiagram());
+		drawLabels(getDiagram());
 	}
 
 	private void drawDiagram(Diagram d) {
@@ -25,6 +28,15 @@ public class ConsoleVisitor extends AbstractVisitor implements Visitor {
 				System.out.println();
 			}
 			drawDiagram(d.getDiagram());
+		}
+
+	}
+	
+	private void drawLabels(Diagram diagram) {
+		if(!diagram.getLabels().isEmpty()){
+			for(int i=0; i<diagram.getLabels().size(); i++){
+				System.out.println(diagram.getLabels().get(i).getText());
+			}
 		}
 	}
 

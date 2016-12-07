@@ -103,7 +103,7 @@ public class SVGConsoleFrameVisitor implements Visitor {
 	}
 
 	@Override
-	public void draw() {
+	public void interprete() {
 		// TODO Auto-generated method stub
 
 	}
