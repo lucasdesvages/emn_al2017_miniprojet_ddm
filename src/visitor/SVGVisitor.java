@@ -29,6 +29,13 @@ import types.Type;
 import types.TypeClass;
 import diagram.Diagram;
 
+/**
+ * Visiteur SVG : crée un fichier svg représentant le diagramme et l'affiche
+ * dans une fenêtre.
+ * 
+ * @author Lucas Desvages, Nicolas Dutronc, Benjamin Machecourt
+ *
+ */
 public class SVGVisitor extends AbstractVisitor implements Visitor {
 
 	private String name;
@@ -70,7 +77,8 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 	private SVGGraphics2D g2;
 
 	/**
-	 * Construit un Visiteur SVG capable
+	 * <<<<<<< HEAD Construit un Visiteur SVG capable ======= >>>>>>>
+	 * b6f2054788f467ac9f6ed5fc1b7a4703e3105b0b
 	 * 
 	 * @param diagram
 	 *            - Diagram
@@ -86,50 +94,49 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 
 	/**
 	 * Fonction d'interpretation du diagramme. Elle dessine le diagramme dans un
-	 * fichier SVG et l'affiche dans une Frame
-	 * 
+	 * fichier SVG et l'affiche dans une Frame.
 	 */
 	@Override
 	public void interprete() {
 
-		// Get a DOMImplementation.
+		// Batik
 		DOMImplementation domImpl = GenericDOMImplementation
 				.getDOMImplementation();
-
-		// Create an instance of org.w3c.dom.Document.
+		// Batik
 		Document document = domImpl.createDocument(name, "svg", null);
 
-		// Create an instance of SVGCanvas in order to display it in a JFrame.
+		// Crée une instance de SVGCanvas pour l'affichage dans une frame et la
+		// création du
+		// fichier svg.
 		JSVGCanvas SVGCanvas = new JSVGCanvas();
 		SVGCanvas.setSize(2500, 2500);
 
-		// Create the svg file
+		// Déclare un fichier dans le répertoire source
 		File image = null;
 
 		g2 = new SVGGraphics2D(document);
 		metrics = g2.getFontMetrics();
 
+		// HashMap contenant les types dessinés et leur position dans le dessin
 		HashMap<Class<?>, int[]> typePos = new HashMap<Class<?>, int[]>();
 
 		drawDiagram(this.getDiagram(), margeHor, margeVer, typePos);
-
 		drawRelations(typePos);
 
-		// Create the .svg file and write the xml code.
+		// Crée le fichier .svg
 		image = new File(this.name + ".svg");
-
+		// Ecrit le fichier svg en code xml
 		boolean useCSS = true; // we want to use CSS style attributes
 		Writer out;
 		try {
 			out = new OutputStreamWriter(new FileOutputStream(image), "UTF-8");
 			g2.stream(out, useCSS);
-			// g2.stream(new OutputStreamWriter(System.out, "UTF-8"), useCSS);
 			SVGCanvas.setURI(image.toString());
 
 		} catch (Exception e1) {
 		}
 
-		// Create a JFrame and add the SVGCanvas to display the new
+		// Crée la frame qui affiche le fichier svg
 		JFrame jframe = new JFrame(this.name + ".svg");
 		JPanel panel = new JPanel();
 		JSVGScrollPane scroll = new JSVGScrollPane(SVGCanvas);
@@ -144,6 +151,16 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 
 	}
 
+	/**
+	 * Dessine le diagramme d et tous les sous diagrammes par récursivité.
+	 * S'arrête au diagramme vide. Place les types les uns après les autres, au
+	 * nombre maximum de largeurMax par ligne.
+	 * 
+	 * @param d
+	 * @param x
+	 * @param y
+	 * @param typePos
+	 */
 	private void drawDiagram(Diagram d, int x, int y,
 			HashMap<Class<?>, int[]> typePos) {
 		largeurCompt++;
@@ -165,6 +182,7 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 				int[] lh = drawType(d, margeHor, margeVer + hMax);
 				hMaxCourante = lh[1];
 				largeurCompt = 1;
+
 				typePos.put(d.getType().getC(), new int[] { margeHor,
 						margeVer + hMax, lh[0], lh[1] });
 				drawDiagram(d.getDiagram(), 2 * margeHor + lh[0], y + hMax,
@@ -175,14 +193,13 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 	}
 
 	/**
-	 * Calculate the width of the type t from its longest string in its
-	 * description
+	 * Calcule la largeur du type.
 	 * 
 	 * @return int width
 	 */
-	public int getWidth(Type t) {
+	private int getWidth(Type t) {
 		String longest = "";
-
+		// Parcourt la description à la recherche de la plus longue string.
 		ArrayList<String[]> description = t.getDescription();
 		for (int i = 0; i != description.size(); i++) {
 			for (int j = 0; j != description.get(i).length; j++) {
@@ -197,29 +214,28 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 
 	/**
 	 * 
-	 * Calculate the height of the type from the total number of elements in its
-	 * description.
+	 * Calcule la hauteur du type.
 	 * 
 	 * @param
 	 * @return int height
 	 */
-	public int getHeight(Diagram d) {
+	private int getHeight(Diagram d) {
+		// Nombre total d'éléments dans la descrption.
 		int nbLig = 0;
 		for (int i = 0; i < d.getDescription().size(); i++) {
 			nbLig += d.getDescription().get(i).length;
 		}
-		/*
-		 * if(!d.getType().getC().isInterface()&&!d.getType().g){ nbLig-=1; }
-		 */
-		return (30 + 20 * (nbLig));
+
+		// Moins les interfaces.
+		return (30 + 20 * (nbLig - d.getType().getInterfaces().length));
 	}
 
 	/**
+	 * Dessine le type d'un diagramme d à la position donnée.
 	 * 
 	 * @param d
 	 * @param x
 	 * @param y
-	 * @param g2
 	 * @return
 	 */
 
@@ -229,15 +245,16 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 		int hauteur = this.getHeight(d);
 		int[] res = { largeur, hauteur };
 
+		// Dessine un rectangle à contour
 		g2.setPaint(backgroundColor);
 		g2.fillRect(x, y, largeur, hauteur);
-
 		g2.setStroke(stroke);
 		g2.setPaint(contourColor);
 		g2.draw(new Rectangle(x, y, largeur, hauteur));
 
+		// Ecrit les textes de la description
 		g2.setPaint(fontColor);
-		// Type type
+		// Type
 		g2.drawString(
 				d.getType().getType(),
 				x
@@ -245,7 +262,7 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 								.stringWidth(d.getType().getType())) / 2),
 				y + 20);
 
-		// Type name
+		// Nom
 		g2.setFont(new Font("default", Font.BOLD, 12));
 		g2.drawString(
 				d.getType().getName(),
@@ -254,31 +271,33 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 								.stringWidth(d.getType().getName())) / 2),
 				y + 40);
 
-		// Type package
+		// Package
 		g2.setFont(defaultFont);
 		g2.drawString(
 				d.getType().getPackage(),
 				x
 						+ ((largeur - metrics.stringWidth(d.getType()
 								.getPackage())) / 2), y + 60);
+		// Séparateur
 		g2.setPaint(contourColor);
 		g2.drawLine(x, y + 80, x + largeur, y + 80);
 
-		if (!d.getType().getC().isInterface()) {
+		if (!d.getType().getC().isInterface()) { // Pour une classe
 
-			// Class fields
+			// Champs
 			for (int i = 0; i < ((TypeClass) d.getType()).getFields().length; i++) {
 				g2.setPaint(fontColor);
 				g2.drawString(((TypeClass) d.getType()).getFields()[i], x + 20,
 						y + 100 + 20 * i);
 			}
+			// Séparateur
 			g2.setPaint(contourColor);
 			g2.drawLine(x, y + 100 + 20
 					* ((TypeClass) d.getType()).getFields().length,
 					x + largeur,
 					y + 100 + 20 * ((TypeClass) d.getType()).getFields().length);
 
-			// Class constructors
+			// Constructeurs
 			g2.setPaint(fontColor);
 			g2.setFont(new Font("default", Font.ITALIC, 12));
 			for (int i = 0; i < ((TypeClass) d.getType()).getConstructors().length; i++) {
@@ -289,8 +308,7 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 								+ 20 + 20 * i);
 			}
 			g2.setFont(defaultFont);
-
-			// Class methods
+			// Methodes
 			for (int i = 0; i < d.getType().getMethods().length; i++) {
 				g2.drawString(d.getType().getMethods()[i], x + 20, y + 100 + 20
 						* ((TypeClass) d.getType()).getFields().length + 20
@@ -298,8 +316,8 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 						* ((TypeClass) d.getType()).getConstructors().length
 						+ 20 * i);
 			}
-		} else {
-			// Interface methods
+		} else { // Pour une interface
+			// Methodes
 			for (int i = 0; i < d.getType().getMethods().length; i++) {
 				g2.drawString(d.getType().getMethods()[i], x + 20, y + 100 + 20
 						* i);
@@ -309,15 +327,29 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 		return res;
 	}
 
+	/**
+	 * Récupère les types et leurs positions dans la hashmap, pour chacun
+	 * récupère la super classe et les interfaces et trace le lien s'il existe
+	 * 
+	 * @param typePos
+	 */
 	private void drawRelations(HashMap<Class<?>, int[]> typePos) {
-
+		// Pour tous les types dessinés (contnus dans la HashMap)
 		for (Entry<Class<?>, int[]> e : typePos.entrySet()) {
+			// Superclasse
 			Class<?> superClasse = e.getKey().getSuperclass();
 			if (superClasse != java.lang.Object.class
 					&& typePos.containsKey(superClasse)) {
-				if (e.getValue()[1] == typePos.get(superClasse)[1]) {
+				if (e.getValue()[1] == typePos.get(superClasse)[1]) { // les
+																		// deux
+																		// types
+																		// sont
+																		// sur
+																		// la
+																		// même
+																		// ligne
 					g2.drawLine(e.getValue()[0] + e.getValue()[2],
-							e.getValue()[1] + e.getValue()[3],
+							e.getValue()[1] + e.getValue()[3] / 2,
 							typePos.get(superClasse)[0],
 							typePos.get(superClasse)[1]);
 					drawArrow(e.getValue()[0] + e.getValue()[2],
@@ -333,7 +365,8 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 							typePos.get(superClasse)[1]);
 				}
 			}
-
+			// Interfaces
+			// Ligne en pointillés
 			float dash1[] = { 10.0f };
 			BasicStroke dashed = new BasicStroke(2.0f, BasicStroke.CAP_BUTT,
 					BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
@@ -367,6 +400,13 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 		}
 	}
 
+	/**
+	 * Dessine une étiquette sur le diagramme à la position (x,y).
+	 * 
+	 * @param diagram
+	 * @param x
+	 * @param y
+	 */
 	private void drawLabels(Diagram diagram, int x, int y) {
 		if (!diagram.getLabels().isEmpty()) {
 			for (int i = 0; i < diagram.getLabels().size(); i++) {
@@ -389,13 +429,14 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 	}
 
 	/**
-	 * Draw the arrow's pointer that points to (x2,y2) with the direction of
+	 * Dessine une pointe de flèche en (x2,y2) suivant la direction
 	 * (x2-x1,y2-y1)
 	 * 
 	 * @param x1
 	 * @param y1
 	 * @param x2
 	 * @param y2
+	 * 
 	 */
 	private void drawArrow(int x1, int y1, int x2, int y2) {
 
@@ -403,6 +444,7 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 		int[] y = new int[3];
 		double vx, vy;
 
+		// Vecteur directeur de la fleche
 		vx = (x2 - x1) * pointe / norme(x2 - x1, y2 - y1);
 		vy = (y2 - y1) * pointe / norme(x2 - x1, y2 - y1);
 
@@ -417,32 +459,54 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 		g2.setColor(contourColor);
 		g2.fillPolygon(x, y, 3);
 		g2.setColor(Color.BLACK);
-
 	}
+
+	/**
+	 * Norme de du vecteur (x,y)
+	 * 
+	 * @param x
+	 * @param y
+	 * @return
+	 */
 
 	private double norme(int x, int y) {
 		return Math.sqrt(x * x + y * y);
 	}
 
+	/**
+	 * Modifie la couleur du texte
+	 * 
+	 * @param color
+	 */
 	public void setFontColor(Color color) {
 		fontColor = color;
 
 	}
 
-	public void setPointerShape(int shape) {
-		// TODO Auto-generated method
-
-	}
-
+	/**
+	 * Modifie l'épaisseur du trait
+	 * 
+	 * @param thickness
+	 */
 	public void setLineThickness(float thickness) {
 		stroke = new BasicStroke(thickness);
 
 	}
 
+	/**
+	 * Modifie la couleur de fond pour les types
+	 * 
+	 * @param color
+	 */
 	public void setBackgroundColor(Color color) {
 		backgroundColor = color;
 	}
 
+	/**
+	 * Modifie la couleur des traits
+	 * 
+	 * @param color
+	 */
 	public void setContourColor(Color color) {
 		contourColor = color;
 
