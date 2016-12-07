@@ -96,7 +96,7 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 
 		// Create an instance of SVGCanvas in order to display it in a JFrame.
 		JSVGCanvas SVGCanvas = new JSVGCanvas();
-		SVGCanvas.setSize(10000, 10000);
+		SVGCanvas.setSize(2500, 2500);
 
 		// Create the svg file
 		File image = null;
@@ -199,6 +199,9 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 		for (int i = 0; i < d.getDescription().size(); i++) {
 			nbLig += d.getDescription().get(i).length;
 		}
+		/*if(!d.getType().getC().isInterface()&&!d.getType().g){
+			nbLig-=1;
+		}*/
 		return (30 + 20 * (nbLig));
 	}
 
@@ -327,16 +330,14 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 	}
 	
 	/**
-	 * Draw an arrow that points to (x2,y2) with the direction of (x2-x1,y2-y1)
+	 * Draw the arrow's pointer that points to (x2,y2) with the direction of (x2-x1,y2-y1)
 	 * @param x1
 	 * @param y1
 	 * @param x2
 	 * @param y2
 	 */
 	private void drawArrow(int x1, int y1, int x2, int y2){
-		
-		System.out.println("draw an arrow");
-		
+				
 		int[] x = new int[3];
 		int[] y = new int[3];
 		double vx,vy;
