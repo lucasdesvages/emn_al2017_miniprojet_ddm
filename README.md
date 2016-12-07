@@ -15,10 +15,6 @@ REMERCIEMENTS
 
 Hervé Grall
 
-INSTALLATION 	
-
-Instructions pour l'installation
-
 LICENSE 	
 
 Il s'agît d'un logiciel libre
