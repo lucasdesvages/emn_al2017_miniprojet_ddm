@@ -40,45 +40,78 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 
 	private String name;
 
-	// Marge horizontale
+	/**
+	 * Marge horizontale
+	 */
 	public static int margeHor = 20;
-	// Marge verticale
+
+	/**
+	 * Marge verticale
+	 */
 	public static int margeVer = 20;
 
-	// Nombre max de types sur une ligne
+	/**
+	 * Nombre max de types sur une ligne
+	 */
 	public static int largeurMax = 5;
 
-	// Nombre courant de types sur une ligne
+	/**
+	 * Nombre courant de types sur une ligne
+	 */
 	private static int largeurCompt = 0;
 
-	// Hauteur max calculée pendant le dessin
+	/**
+	 * Hauteur max calculée pendant le dessin
+	 */
 	private static int hMax = 0;
 
-	// Hauteur max courante
+	/**
+	 * Hauteur max courante
+	 */
 	private static int hMaxCourante = hMax;
 
-	// Police par defaut
+	/**
+	 * Police par defaut
+	 */
 	private Font defaultFont = new Font("default", Font.PLAIN, 12);
-	// Couleur de police
+
+	/**
+	 * Couleur de police
+	 */
 	private Color fontColor = Color.BLACK;
-	// Metriques de police (utilisees pour obtenir la taille d'une string)
+
+	/**
+	 * Metriques de police (utilisees pour obtenir la taille d'une string)
+	 */
 	private FontMetrics metrics;
 
-	// Couleur de fond
+	/**
+	 * Couleur de fond
+	 */
 	private Color backgroundColor = new Color(255, 249, 200, 255);
-	// Couleur de contour
+
+	/**
+	 * Couleur de contour
+	 */
 	private Color contourColor = Color.BLACK;
-	// Epaisseur des contours
+
+	/**
+	 * Epaisseur des contours
+	 */
 	private BasicStroke stroke = new BasicStroke(1.0f);
-	// Taille pointe de fleche
+
+	/**
+	 * Taille pointe de fleche
+	 */
 	private int pointe = 10;
 
-	// Objet de dessin
+	/**
+	 * Objet de dessin
+	 */
 	private SVGGraphics2D g2;
 
 	/**
-	 * <<<<<<< HEAD Construit un Visiteur SVG capable ======= >>>>>>>
-	 * b6f2054788f467ac9f6ed5fc1b7a4703e3105b0b
+	 * Constructeur
 	 * 
 	 * @param diagram
 	 *            - Diagram
@@ -86,7 +119,6 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 	 *            - Nom du diagramme et du fichier svg
 	 * 
 	 */
-
 	public SVGVisitor(Diagram diagram, String name) {
 		super(diagram);
 		this.name = name;
@@ -134,6 +166,7 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 			SVGCanvas.setURI(image.toString());
 
 		} catch (Exception e1) {
+			
 		}
 
 		// Crée la frame qui affiche le fichier svg
@@ -238,7 +271,6 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 	 * @param y
 	 * @return
 	 */
-
 	private int[] drawType(Diagram d, int x, int y) {
 
 		int largeur = this.getWidth(d.getType());
@@ -468,7 +500,6 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 	 * @param y
 	 * @return
 	 */
-
 	private double norme(int x, int y) {
 		return Math.sqrt(x * x + y * y);
 	}
@@ -480,7 +511,6 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 	 */
 	public void setFontColor(Color color) {
 		fontColor = color;
-
 	}
 
 	/**
@@ -490,7 +520,6 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 	 */
 	public void setLineThickness(float thickness) {
 		stroke = new BasicStroke(thickness);
-
 	}
 
 	/**
@@ -509,7 +538,6 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 	 */
 	public void setContourColor(Color color) {
 		contourColor = color;
-
 	}
 
 }
