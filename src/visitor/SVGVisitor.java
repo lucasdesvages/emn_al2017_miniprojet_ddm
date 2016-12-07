@@ -59,8 +59,10 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 	private Color backgroundColor = new Color(255,249,200,255); 
 	// Couleur de contour
 	private Color contourColor = Color.BLACK;
-	// Epaisseur des fleches
+	// Epaisseur des contours
 	private BasicStroke stroke = new BasicStroke(1.0f);
+	// Taille pointe de fleche
+	private int pointe = 10;
 
 	// Objet de dessin
 	private SVGGraphics2D g2;
@@ -267,14 +269,17 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 	}
 
 	private void drawRelations(HashMap<Class<?>, int[]> typePos) {
+		
 		for (Entry<Class<?>, int[]> e : typePos.entrySet()) {
 			Class<?> superClasse = e.getKey().getSuperclass();
 			if (superClasse != java.lang.Object.class && typePos.containsKey(superClasse)) {
 				if (e.getValue()[1]==typePos.get(superClasse)[1]){
 					g2.drawLine(e.getValue()[0]+e.getValue()[2], e.getValue()[1]+e.getValue()[3], typePos.get(superClasse)[0], typePos.get(superClasse)[1]);
+					drawArrow(e.getValue()[0]+e.getValue()[2], e.getValue()[1]+e.getValue()[3], typePos.get(superClasse)[0], typePos.get(superClasse)[1]);
 				}
 				else {
 					g2.drawLine(e.getValue()[0], e.getValue()[1], typePos.get(superClasse)[0], typePos.get(superClasse)[1]);
+					drawArrow(e.getValue()[0], e.getValue()[1], typePos.get(superClasse)[0], typePos.get(superClasse)[1]);
 				}
 			}
 			
@@ -289,9 +294,13 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 					if (e.getValue()[1]==typePos.get(interfaceBis)[1]){
 						g2.drawLine(e.getValue()[0]+e.getValue()[2], e.getValue()[1]+e.getValue()[3], typePos.get(interfaceBis)[0],
 								typePos.get(interfaceBis)[1]);
+						drawArrow(e.getValue()[0]+e.getValue()[2], e.getValue()[1]+e.getValue()[3], typePos.get(interfaceBis)[0],
+								typePos.get(interfaceBis)[1]);
 					}
 					else {
 					g2.drawLine(e.getValue()[0], e.getValue()[1], typePos.get(interfaceBis)[0],
+							typePos.get(interfaceBis)[1]);
+					drawArrow(e.getValue()[0], e.getValue()[1], typePos.get(interfaceBis)[0],
 							typePos.get(interfaceBis)[1]);
 					}
 				}
@@ -315,6 +324,42 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 				g2.setColor(Color.BLACK);
 			}
 		}
+	}
+	
+	/**
+	 * Draw an arrow that points to (x2,y2) with the direction of (x2-x1,y2-y1)
+	 * @param x1
+	 * @param y1
+	 * @param x2
+	 * @param y2
+	 */
+	private void drawArrow(int x1, int y1, int x2, int y2){
+		
+		System.out.println("draw an arrow");
+		
+		int[] x = new int[3];
+		int[] y = new int[3];
+		double vx,vy;
+		
+		vx = (x2-x1) * pointe / norme(x2-x1,y2-y1);
+		vy = (y2-y1) * pointe / norme(x2-x1,y2-y1);
+
+		x[0] = (int) (x2 -1.5*vx - vy / 1.5);
+		x[1] = (int) (x2 -1.5*vx + vy / 1.5);
+		x[2] = (int) (x2);
+
+		y[0] = (int) (y2 -1.5*vy + vx / 1.5);
+		y[1] = (int) (y2 -1.5*vy - vx / 1.5);
+		y[2] = (int) (y2);
+
+		g2.setColor(contourColor);
+		g2.fillPolygon(x, y, 3);
+		g2.setColor(Color.BLACK);
+		
+	}
+	
+	private double norme(int x, int y){
+		return Math.sqrt(x*x+y*y);
 	}
 
 
