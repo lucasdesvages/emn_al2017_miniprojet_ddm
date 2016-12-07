@@ -17,13 +17,12 @@ public class Test {
 
 		DiagramFactory<Diagram> fab = new DiagramComposite();
 
-		Diagram vide = fab.createEmptyDiagram();
-		Diagram d = fab.createDiagram(TestClassReader.class, vide);
-		Diagram dBis = fab.createDiagram(TestClassReader.class, vide);
+		Diagram d = fab.createDiagram(TestClassReader.class);
+		Diagram dBis = fab.createDiagram(TestClassReader.class);
 		dBis.add(Label.class);
-		
+
 		d.insert(dBis);
-		
+
 		d.add(TestInterface.class);
 		d.add(TestInterface.class);
 		d.add(SVGVisitor.class);
@@ -40,6 +39,6 @@ public class Test {
 
 		SVGVisitor visitor = new SVGVisitor(d, "DiagramTest");
 		visitor.interprete();
-		
+
 	}
 }

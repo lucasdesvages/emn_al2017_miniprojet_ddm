@@ -19,13 +19,8 @@ public class EmptyDiagram extends AbstractDiagram implements Diagram {
 	}
 
 	@Override
-	public Diagram createEmptyDiagram() {
-		return getInstance();
-	}
-
-	@Override
-	public Diagram createDiagram(Class<?> c, Diagram diagram) {
-		return new DiagramComposite(c, diagram);
+	public Diagram createDiagram(Class<?> c) {
+		return new DiagramComposite(c, getInstance());
 	}
 
 	@Override
@@ -44,7 +39,7 @@ public class EmptyDiagram extends AbstractDiagram implements Diagram {
 	}
 
 	@Override
-	public void label(String text, int x, int y) {		
+	public void label(String text, int x, int y) {
 	}
 
 }

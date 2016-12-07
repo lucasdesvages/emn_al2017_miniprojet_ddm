@@ -166,7 +166,7 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 			SVGCanvas.setURI(image.toString());
 
 		} catch (Exception e1) {
-			
+
 		}
 
 		// Crée la frame qui affiche le fichier svg
@@ -231,18 +231,18 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 	 * @return int width
 	 */
 	private int getWidth(Type t) {
-		String longest = "";
+		int longest = 0;
 		// Parcourt la description à la recherche de la plus longue string.
 		ArrayList<String[]> description = t.getDescription();
 		for (int i = 0; i != description.size(); i++) {
 			for (int j = 0; j != description.get(i).length; j++) {
-				if (description.get(i)[j].length() > longest.length()) {
-					longest = description.get(i)[j];
+				if (metrics.stringWidth(description.get(i)[j]) > longest) {
+					longest = metrics.stringWidth(description.get(i)[j]);
 				}
 			}
 		}
 
-		return (int) (metrics.stringWidth(longest) + margeHor);
+		return longest;
 	}
 
 	/**
@@ -273,7 +273,7 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 	 */
 	private int[] drawType(Diagram d, int x, int y) {
 
-		int largeur = this.getWidth(d.getType());
+		int largeur = this.getWidth(d.getType()) + 30;
 		int hauteur = this.getHeight(d);
 		int[] res = { largeur, hauteur };
 
@@ -316,7 +316,7 @@ public class SVGVisitor extends AbstractVisitor implements Visitor {
 
 		if (!d.getType().getC().isInterface()) { // Pour une classe
 
-			// Champs
+			// Variables d'instance
 			for (int i = 0; i < ((TypeClass) d.getType()).getFields().length; i++) {
 				g2.setPaint(fontColor);
 				g2.drawString(((TypeClass) d.getType()).getFields()[i], x + 20,

@@ -83,10 +83,7 @@ public abstract class AbstractDiagram implements Diagram {
 	abstract public boolean isEmpty();
 
 	@Override
-	abstract public Diagram createEmptyDiagram();
-
-	@Override
-	abstract public Diagram createDiagram(Class<?> c, Diagram diagram);
+	abstract public Diagram createDiagram(Class<?> c);
 
 	@Override
 	abstract public void add(Class<?> c);

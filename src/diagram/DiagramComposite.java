@@ -18,18 +18,13 @@ public class DiagramComposite extends AbstractDiagram implements Diagram {
 	}
 
 	@Override
-	public Diagram createEmptyDiagram() {
-		return EmptyDiagram.getInstance();
-	}
-
-	@Override
-	public Diagram createDiagram(Class<?> c, Diagram diagram) {
-		return new DiagramComposite(c, diagram);
+	public Diagram createDiagram(Class<?> c) {
+		return new DiagramComposite(c, EmptyDiagram.getInstance());
 	}
 
 	@Override
 	public void add(Class<?> c) {
-		Diagram d = createDiagram(c, EmptyDiagram.getInstance());
+		Diagram d = createDiagram(c);
 		if (!this.contains(d)) {
 			Diagram lastDiagram = getLastDiagram();
 			lastDiagram.setDiagram(d);
