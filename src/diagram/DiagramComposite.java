@@ -29,15 +29,19 @@ public class DiagramComposite extends AbstractDiagram implements Diagram {
 
 	@Override
 	public void add(Class<?> c) {
-		Diagram lastDiagram = getLastDiagram();
-		lastDiagram.setDiagram(new DiagramComposite(c, EmptyDiagram
-				.getInstance()));
+		Diagram d = createDiagram(c, EmptyDiagram.getInstance());
+		if (!this.contains(d)) {
+			Diagram lastDiagram = getLastDiagram();
+			lastDiagram.setDiagram(d);
+		}
 	}
 
 	@Override
 	public void insert(Diagram d) {
-		Diagram lastDiagram = getLastDiagram();
-		lastDiagram.setDiagram(d);
+		if (!d.isEmpty()) {
+			this.add(d.getType().getC());
+			insert(d.getDiagram());
+		}
 	}
 
 	@Override
@@ -47,9 +51,8 @@ public class DiagramComposite extends AbstractDiagram implements Diagram {
 
 	@Override
 	public void label(String text, int x, int y) {
-		ArrayList<Label> labels = getLabels();
-		labels.add(new Label(text, x, y));
-		
+		getLabels().add(new Label(text, x, y));
+
 	}
 
 }

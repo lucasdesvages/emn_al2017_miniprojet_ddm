@@ -6,6 +6,10 @@ import types.Type;
 
 public interface DiagramAccessors<T> {
 
+	/**
+	 * 
+	 * @return
+	 */
 	Type getType();
 
 	Diagram getDiagram();

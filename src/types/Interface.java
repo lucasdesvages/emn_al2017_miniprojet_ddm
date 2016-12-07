@@ -94,4 +94,9 @@ public class Interface implements TypeInterface {
 
 		return s;
 	}
+
+	@Override
+	public boolean equals(Type t) {
+		return getC().equals(t.getC());
+	}
 }

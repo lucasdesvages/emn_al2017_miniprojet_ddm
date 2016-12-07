@@ -20,4 +20,6 @@ public interface Type {
 
 	ArrayList<String[]> getDescription();
 
+	boolean equals(Type t);
+
 }
