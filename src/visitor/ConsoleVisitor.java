@@ -35,7 +35,7 @@ public class ConsoleVisitor extends AbstractVisitor implements Visitor {
 	private void drawLabels(Diagram diagram) {
 		if(!diagram.getLabels().isEmpty()){
 			for(int i=0; i<diagram.getLabels().size(); i++){
-				System.out.println(diagram.getLabels().get(i).getText());
+				System.out.println("Label : "+diagram.getLabels().get(i).getText());
 			}
 		}
 	}

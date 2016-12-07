@@ -22,7 +22,7 @@ public class Test {
 		Diagram dBis = fab.createDiagram(TestClassReader.class, vide);
 		dBis.add(Label.class);
 		
-		//d.insert(dBis);
+		d.insert(dBis);
 		
 		d.add(TestInterface.class);
 		d.add(TestInterface.class);
